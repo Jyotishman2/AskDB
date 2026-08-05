@@ -1,0 +1,1001 @@
+product_id,product_name,category,price
+1,Oats 0001,Grocery,955.72
+2,Jacket 0002,Fashion,1014.9
+3,Coffee 0003,Grocery,842.01
+4,Calculator 0004,Office,128.99
+5,Cookware Set 0005,Home & Kitchen,37507.15
+6,Sneakers 0006,Fashion,870.88
+7,WiFi Adapter 0007,Computers,921.34
+8,Keyboard 0008,Electronics,39501.66
+9,Sneakers 0009,Fashion,1296.76
+10,Laptop 0010,Computers,6732.23
+11,Green Tea 0011,Grocery,2775.65
+12,Vacuum Cleaner 0012,Home & Kitchen,409.57
+13,Power Bank 0013,Electronics,45289.97
+14,Webcam 0014,Electronics,577.8
+15,Air Fryer 0015,Home & Kitchen,758.58
+16,Mouse 0016,Electronics,76136.16
+17,Wireless Earbuds 0017,Electronics,987.13
+18,USB Hub 0018,Electronics,60579.71
+19,Laptop Stand 0019,Computers,2439.05
+20,Bottle 0020,Home & Kitchen,14481.62
+21,Honey 0021,Grocery,64.66
+22,Bottle 0022,Home & Kitchen,898.63
+23,Lamp 0023,Home & Kitchen,1829.96
+24,Green Tea 0024,Grocery,83.67
+25,Router 0025,Electronics,18796.49
+26,Bottle 0026,Home & Kitchen,3829.28
+27,Mixer Grinder 0027,Home & Kitchen,24318.79
+28,Lamp 0028,Home & Kitchen,8018.18
+29,Car Charger 0029,Mobiles,6771.5
+30,Car Charger 0030,Mobiles,4150.15
+31,Novel 0031,Books,128.14
+32,Oats 0032,Grocery,650.35
+33,Kurta 0033,Fashion,396.54
+34,Smart Watch 0034,Electronics,57832.66
+35,Kurta 0035,Fashion,885.84
+36,Backpack 0036,Fashion,5222.54
+37,Watch 0037,Fashion,2001.56
+38,Badminton Racket 0038,Sports,465.0
+39,Bottle 0039,Home & Kitchen,38650.98
+40,Protein Cereal 0040,Grocery,310.79
+41,Smart Watch 0041,Electronics,628.64
+42,Power Bank 0042,Electronics,39143.36
+43,SSD 0043,Electronics,8266.16
+44,Honey 0044,Grocery,71.3
+45,Cricket Bat 0045,Sports,548.07
+46,Wireless Earbuds 0046,Electronics,1470.09
+47,Vacuum Cleaner 0047,Home & Kitchen,3186.54
+48,Desk Organizer 0048,Office,3232.02
+49,Honey 0049,Grocery,461.57
+50,Router 0050,Electronics,19180.69
+51,Cricket Bat 0051,Sports,1940.58
+52,Watch 0052,Fashion,9302.16
+53,Cricket Bat 0053,Sports,205.14
+54,File Folder 0054,Office,533.21
+55,RAM Kit 0055,Computers,7898.06
+56,Headphones 0056,Electronics,518.16
+57,Graphics Tablet 0057,Computers,2629.69
+58,Laptop 0058,Computers,56433.95
+59,Gym Gloves 0059,Sports,2028.23
+60,Phone Stand 0060,Mobiles,857.77
+61,Desk Organizer 0061,Office,4718.11
+62,Honey 0062,Grocery,382.88
+63,Yoga Mat 0063,Sports,260.77
+64,Car Charger 0064,Mobiles,7514.63
+65,AI Fundamentals 0065,Books,200.33
+66,File Folder 0066,Office,158.41
+67,Shirt 0067,Fashion,387.62
+68,Wireless Charger 0068,Mobiles,81323.34
+69,Headphones 0069,Electronics,1165.04
+70,Gaming Mouse 0070,Computers,4521.08
+71,Phone Stand 0071,Mobiles,7091.81
+72,Football 0072,Sports,22817.0
+73,Serum 0073,Beauty,1713.93
+74,Screen Guard 0074,Mobiles,3732.97
+75,Pen Set 0075,Office,331.88
+76,Sneakers 0076,Fashion,952.44
+77,System Design Book 0077,Books,543.83
+78,Peanut Butter 0078,Grocery,234.09
+79,Keyboard 0079,Electronics,7240.76
+80,Protein Cereal 0080,Grocery,1055.27
+81,Storage Box 0081,Home & Kitchen,597.23
+82,Dumbbell Set 0082,Sports,21092.36
+83,Router 0083,Electronics,11401.03
+84,Wireless Charger 0084,Mobiles,79004.92
+85,Mixer Grinder 0085,Home & Kitchen,6564.5
+86,Bottle 0086,Home & Kitchen,707.4
+87,Backpack 0087,Fashion,1950.11
+88,Sneakers 0088,Fashion,8511.76
+89,Mixer Grinder 0089,Home & Kitchen,2650.02
+90,Router 0090,Electronics,10956.95
+91,Mechanical Keyboard 0091,Computers,1567.9
+92,Football 0092,Sports,12673.84
+93,Graphics Tablet 0093,Computers,929.68
+94,Headphones 0094,Electronics,67745.06
+95,Vacuum Cleaner 0095,Home & Kitchen,426.59
+96,Laptop 0096,Computers,7365.58
+97,Backpack 0097,Fashion,6526.7
+98,Jeans 0098,Fashion,231.11
+99,Python Guide 0099,Books,322.69
+100,Docking Station 0100,Computers,3464.19
+101,Trimmer 0101,Beauty,582.98
+102,USB Hub 0102,Electronics,15065.53
+103,Toaster 0103,Home & Kitchen,11622.02
+104,Mouse 0104,Electronics,61275.72
+105,Phone Stand 0105,Mobiles,16483.95
+106,Smartphone 0106,Mobiles,2559.62
+107,Air Fryer 0107,Home & Kitchen,1228.7
+108,Backpack 0108,Fashion,219.83
+109,USB Cable 0109,Mobiles,19573.48
+110,Screen Guard 0110,Mobiles,4412.81
+111,Car Charger 0111,Mobiles,60958.12
+112,Desk Mat 0112,Office,5799.21
+113,Hoodie 0113,Fashion,768.58
+114,Mouse 0114,Electronics,985.4
+115,Peanut Butter 0115,Grocery,88.4
+116,Honey 0116,Grocery,1940.76
+117,Cricket Bat 0117,Sports,8419.77
+118,USB Hub 0118,Electronics,2541.13
+119,Oats 0119,Grocery,71.7
+120,Trimmer 0120,Beauty,857.0
+121,Gym Gloves 0121,Sports,408.77
+122,Face Wash 0122,Beauty,3173.31
+123,AI Fundamentals 0123,Books,758.45
+124,Badminton Racket 0124,Sports,1867.26
+125,Headphones 0125,Electronics,27907.91
+126,Wireless Earbuds 0126,Electronics,1328.93
+127,Football 0127,Sports,457.65
+128,Oats 0128,Grocery,1019.84
+129,Smartphone 0129,Mobiles,316.97
+130,System Design Book 0130,Books,2488.28
+131,Bedsheet 0131,Home & Kitchen,6054.5
+132,Face Wash 0132,Beauty,1241.82
+133,Headphones 0133,Electronics,790.45
+134,T-Shirt 0134,Fashion,820.61
+135,Sunscreen 0135,Beauty,467.8
+136,Hoodie 0136,Fashion,1842.43
+137,Novel 0137,Books,1962.04
+138,Bedsheet 0138,Home & Kitchen,318.26
+139,Shampoo 0139,Beauty,5252.65
+140,Phone Stand 0140,Mobiles,314.2
+141,Hoodie 0141,Fashion,279.76
+142,Pen Set 0142,Office,144.97
+143,USB Cable 0143,Mobiles,1468.46
+144,Lamp 0144,Home & Kitchen,2444.81
+145,WiFi Adapter 0145,Computers,44326.65
+146,Shirt 0146,Fashion,6562.62
+147,Vacuum Cleaner 0147,Home & Kitchen,315.98
+148,Bedsheet 0148,Home & Kitchen,15348.32
+149,Bluetooth Speaker 0149,Electronics,1091.9
+150,Dumbbell Set 0150,Sports,14191.2
+151,Python Guide 0151,Books,2450.52
+152,Keyboard 0152,Electronics,10811.25
+153,Phone Case 0153,Mobiles,803.67
+154,Hoodie 0154,Fashion,242.75
+155,Kurta 0155,Fashion,3228.69
+156,Watch 0156,Fashion,649.56
+157,USB Cable 0157,Mobiles,608.69
+158,Hoodie 0158,Fashion,5982.37
+159,Smart Watch 0159,Electronics,718.23
+160,Laptop 0160,Computers,6237.88
+161,Jacket 0161,Fashion,287.69
+162,Office Chair 0162,Office,2795.64
+163,Olive Oil 0163,Grocery,366.46
+164,Pen Set 0164,Office,6237.97
+165,USB Hub 0165,Electronics,1545.82
+166,Hoodie 0166,Fashion,285.6
+167,Router 0167,Electronics,30734.86
+168,Mixer Grinder 0168,Home & Kitchen,1092.23
+169,Green Tea 0169,Grocery,131.09
+170,Gaming Mouse 0170,Computers,900.89
+171,Dry Fruits 0171,Grocery,150.3
+172,Trimmer 0172,Beauty,653.95
+173,Pen Set 0173,Office,191.31
+174,Vacuum Cleaner 0174,Home & Kitchen,1239.72
+175,Serum 0175,Beauty,726.41
+176,Cricket Bat 0176,Sports,1123.42
+177,Honey 0177,Grocery,91.59
+178,Monitor 0178,Electronics,25323.32
+179,Mini PC 0179,Computers,915.97
+180,Docking Station 0180,Computers,121456.71
+181,Cookware Set 0181,Home & Kitchen,325.57
+182,Notebook 0182,Office,262.32
+183,Honey 0183,Grocery,2723.22
+184,Office Chair 0184,Office,2785.5
+185,Watch 0185,Fashion,5771.85
+186,Mini PC 0186,Computers,6449.82
+187,Mixer Grinder 0187,Home & Kitchen,1242.53
+188,Watch 0188,Fashion,7139.33
+189,Olive Oil 0189,Grocery,251.15
+190,Shirt 0190,Fashion,9495.71
+191,Docking Station 0191,Computers,1089.65
+192,Lamp 0192,Home & Kitchen,3185.88
+193,Wireless Earbuds 0193,Electronics,10154.42
+194,Green Tea 0194,Grocery,151.49
+195,Monitor 0195,Electronics,1395.06
+196,RAM Kit 0196,Computers,2468.76
+197,Monitor 0197,Electronics,2883.2
+198,Sunglasses 0198,Fashion,627.39
+199,Dry Fruits 0199,Grocery,635.99
+200,System Design Book 0200,Books,448.75
+201,T-Shirt 0201,Fashion,5358.23
+202,Bottle 0202,Home & Kitchen,3214.45
+203,Oats 0203,Grocery,823.65
+204,Backpack 0204,Fashion,3649.67
+205,Screen Guard 0205,Mobiles,1081.08
+206,Resistance Band 0206,Sports,8704.5
+207,Desk Mat 0207,Office,775.96
+208,Power Bank 0208,Electronics,4619.04
+209,Jacket 0209,Fashion,1701.08
+210,Vacuum Cleaner 0210,Home & Kitchen,20947.81
+211,Dry Fruits 0211,Grocery,89.11
+212,Laptop Stand 0212,Computers,947.4
+213,Finance Book 0213,Books,225.76
+214,Smartphone 0214,Mobiles,3681.76
+215,Protein Cereal 0215,Grocery,411.55
+216,Badminton Racket 0216,Sports,319.98
+217,Mechanical Keyboard 0217,Computers,1580.23
+218,Cookware Set 0218,Home & Kitchen,2250.41
+219,Fast Charger 0219,Mobiles,9837.99
+220,Mixer Grinder 0220,Home & Kitchen,379.71
+221,Smartphone 0221,Mobiles,307.98
+222,Headphones 0222,Electronics,28147.08
+223,Mechanical Keyboard 0223,Computers,5539.43
+224,Bluetooth Speaker 0224,Electronics,19615.01
+225,Resistance Band 0225,Sports,14806.47
+226,Router 0226,Electronics,3615.44
+227,Monitor 0227,Electronics,58607.75
+228,Olive Oil 0228,Grocery,67.02
+229,Bottle 0229,Home & Kitchen,1657.17
+230,Gym Gloves 0230,Sports,1037.76
+231,Novel 0231,Books,336.64
+232,Smartphone 0232,Mobiles,868.07
+233,Storage Box 0233,Home & Kitchen,1491.25
+234,Football 0234,Sports,2228.61
+235,Keyboard 0235,Electronics,33014.23
+236,RAM Kit 0236,Computers,21835.33
+237,Car Charger 0237,Mobiles,51507.06
+238,Phone Stand 0238,Mobiles,35845.98
+239,Power Bank 0239,Electronics,86549.19
+240,Green Tea 0240,Grocery,580.77
+241,Bottle 0241,Home & Kitchen,446.04
+242,Football 0242,Sports,21486.59
+243,Wireless Charger 0243,Mobiles,73932.8
+244,Python Guide 0244,Books,811.54
+245,Running Shoes 0245,Sports,7244.77
+246,Hair Dryer 0246,Beauty,3291.85
+247,Laptop 0247,Computers,25050.16
+248,Peanut Butter 0248,Grocery,1538.29
+249,T-Shirt 0249,Fashion,9239.81
+250,Sneakers 0250,Fashion,223.27
+251,Dumbbell Set 0251,Sports,1418.69
+252,Peanut Butter 0252,Grocery,56.16
+253,Power Bank 0253,Electronics,4239.56
+254,Novel 0254,Books,1570.53
+255,Yoga Mat 0255,Sports,636.47
+256,Perfume 0256,Beauty,1168.27
+257,Docking Station 0257,Computers,56341.31
+258,Headphones 0258,Electronics,4421.97
+259,Trimmer 0259,Beauty,2263.14
+260,Jeans 0260,Fashion,656.88
+261,Laptop 0261,Computers,3037.31
+262,Watch 0262,Fashion,1062.91
+263,Fast Charger 0263,Mobiles,47800.81
+264,File Folder 0264,Office,4328.42
+265,Biography 0265,Books,1513.81
+266,Mouse 0266,Electronics,1197.81
+267,Wireless Earbuds 0267,Electronics,894.01
+268,Pen Set 0268,Office,1540.83
+269,Bedsheet 0269,Home & Kitchen,1008.57
+270,Sneakers 0270,Fashion,3052.97
+271,Fast Charger 0271,Mobiles,1240.64
+272,Finance Book 0272,Books,984.9
+273,Shirt 0273,Fashion,1041.54
+274,Honey 0274,Grocery,941.62
+275,SQL Handbook 0275,Books,117.48
+276,Kettle 0276,Home & Kitchen,3800.65
+277,Desk Organizer 0277,Office,1853.39
+278,Backpack 0278,Fashion,1152.79
+279,Office Chair 0279,Office,60.92
+280,Smartphone 0280,Mobiles,8945.76
+281,Keyboard 0281,Electronics,1230.44
+282,System Design Book 0282,Books,272.29
+283,Fast Charger 0283,Mobiles,35682.21
+284,Dry Fruits 0284,Grocery,681.66
+285,Toaster 0285,Home & Kitchen,14578.07
+286,Resistance Band 0286,Sports,4796.82
+287,Kurta 0287,Fashion,324.32
+288,Gaming Mouse 0288,Computers,6999.34
+289,Smartphone 0289,Mobiles,14348.69
+290,File Folder 0290,Office,81.58
+291,Router 0291,Electronics,9169.95
+292,Green Tea 0292,Grocery,1526.06
+293,Honey 0293,Grocery,2541.69
+294,Novel 0294,Books,125.31
+295,Yoga Mat 0295,Sports,2101.1
+296,Jeans 0296,Fashion,9571.54
+297,Keyboard 0297,Electronics,63552.44
+298,Mini PC 0298,Computers,33311.23
+299,Bluetooth Speaker 0299,Electronics,89699.57
+300,Dry Fruits 0300,Grocery,62.81
+301,Backpack 0301,Fashion,4572.48
+302,Keyboard 0302,Electronics,46566.71
+303,Toaster 0303,Home & Kitchen,25789.98
+304,Peanut Butter 0304,Grocery,2651.52
+305,Docking Station 0305,Computers,149990.25
+306,Novel 0306,Books,602.87
+307,Serum 0307,Beauty,741.59
+308,Router 0308,Electronics,9176.71
+309,Smart Watch 0309,Electronics,2928.36
+310,Bluetooth Speaker 0310,Electronics,1126.98
+311,Yoga Mat 0311,Sports,2848.42
+312,Smart Watch 0312,Electronics,4116.19
+313,Hoodie 0313,Fashion,252.12
+314,Vacuum Cleaner 0314,Home & Kitchen,1768.56
+315,Router 0315,Electronics,4667.58
+316,Dry Fruits 0316,Grocery,469.57
+317,WiFi Adapter 0317,Computers,23582.49
+318,Screen Guard 0318,Mobiles,3605.88
+319,Toaster 0319,Home & Kitchen,404.16
+320,Headphones 0320,Electronics,502.03
+321,USB Hub 0321,Electronics,86795.91
+322,Air Fryer 0322,Home & Kitchen,17375.7
+323,Wireless Earbuds 0323,Electronics,33670.31
+324,Mixer Grinder 0324,Home & Kitchen,3268.27
+325,Vacuum Cleaner 0325,Home & Kitchen,26037.72
+326,Finance Book 0326,Books,1120.16
+327,Dry Fruits 0327,Grocery,96.3
+328,Mixer Grinder 0328,Home & Kitchen,4103.43
+329,Dry Fruits 0329,Grocery,150.63
+330,Fast Charger 0330,Mobiles,17766.73
+331,AI Fundamentals 0331,Books,1020.3
+332,Watch 0332,Fashion,7717.24
+333,Monitor 0333,Electronics,3036.43
+334,Protein Cereal 0334,Grocery,781.72
+335,Laptop 0335,Computers,6317.16
+336,Vacuum Cleaner 0336,Home & Kitchen,2417.73
+337,Smartphone 0337,Mobiles,515.96
+338,Shirt 0338,Fashion,1422.51
+339,Air Fryer 0339,Home & Kitchen,839.55
+340,Lamp 0340,Home & Kitchen,202.72
+341,Coffee 0341,Grocery,108.78
+342,Fast Charger 0342,Mobiles,29310.69
+343,Monitor 0343,Electronics,79024.79
+344,Storage Box 0344,Home & Kitchen,271.17
+345,Headphones 0345,Electronics,3763.59
+346,Desk Mat 0346,Office,307.46
+347,Whiteboard 0347,Office,7764.62
+348,Laptop Stand 0348,Computers,19654.93
+349,Yoga Mat 0349,Sports,24889.85
+350,Bedsheet 0350,Home & Kitchen,12165.18
+351,Monitor 0351,Electronics,1623.57
+352,Router 0352,Electronics,2961.9
+353,Novel 0353,Books,444.23
+354,Gym Gloves 0354,Sports,359.17
+355,USB Cable 0355,Mobiles,5595.15
+356,Hoodie 0356,Fashion,9371.17
+357,Mouse 0357,Electronics,39311.94
+358,Olive Oil 0358,Grocery,960.79
+359,Football 0359,Sports,508.55
+360,Storage Box 0360,Home & Kitchen,629.33
+361,Gaming Mouse 0361,Computers,12997.73
+362,Phone Stand 0362,Mobiles,787.15
+363,Office Chair 0363,Office,582.17
+364,Dry Fruits 0364,Grocery,379.1
+365,Mouse 0365,Electronics,24675.63
+366,Laptop Stand 0366,Computers,2706.81
+367,Docking Station 0367,Computers,59868.77
+368,Yoga Mat 0368,Sports,205.75
+369,Novel 0369,Books,156.87
+370,Laptop Stand 0370,Computers,2329.65
+371,Bedsheet 0371,Home & Kitchen,567.24
+372,External SSD 0372,Computers,28504.97
+373,Kurta 0373,Fashion,6428.89
+374,Toaster 0374,Home & Kitchen,882.86
+375,Cookware Set 0375,Home & Kitchen,392.1
+376,SQL Handbook 0376,Books,236.24
+377,Mechanical Keyboard 0377,Computers,17761.84
+378,Trimmer 0378,Beauty,2700.31
+379,Python Guide 0379,Books,462.57
+380,Vacuum Cleaner 0380,Home & Kitchen,3494.57
+381,Olive Oil 0381,Grocery,165.47
+382,Peanut Butter 0382,Grocery,173.39
+383,Cricket Bat 0383,Sports,316.28
+384,Toaster 0384,Home & Kitchen,13241.85
+385,Bottle 0385,Home & Kitchen,1999.49
+386,Power Bank 0386,Electronics,20294.44
+387,Sunglasses 0387,Fashion,432.56
+388,Calculator 0388,Office,788.5
+389,USB Cable 0389,Mobiles,1478.19
+390,Office Chair 0390,Office,1440.18
+391,Jacket 0391,Fashion,2113.54
+392,Hoodie 0392,Fashion,1248.08
+393,Dry Fruits 0393,Grocery,796.4
+394,Mouse 0394,Electronics,561.91
+395,SSD 0395,Electronics,7051.8
+396,Resistance Band 0396,Sports,21001.74
+397,Moisturizer 0397,Beauty,1969.93
+398,Cricket Bat 0398,Sports,988.44
+399,Vacuum Cleaner 0399,Home & Kitchen,20827.78
+400,Resistance Band 0400,Sports,4343.52
+401,Resistance Band 0401,Sports,4522.1
+402,RAM Kit 0402,Computers,10620.84
+403,Bedsheet 0403,Home & Kitchen,16137.26
+404,Kurta 0404,Fashion,1066.31
+405,SSD 0405,Electronics,3211.02
+406,T-Shirt 0406,Fashion,492.04
+407,Smartphone 0407,Mobiles,728.68
+408,Bottle 0408,Home & Kitchen,447.26
+409,Phone Stand 0409,Mobiles,1300.67
+410,Novel 0410,Books,192.46
+411,Finance Book 0411,Books,206.59
+412,Hoodie 0412,Fashion,744.41
+413,T-Shirt 0413,Fashion,437.4
+414,Backpack 0414,Fashion,4356.23
+415,Car Charger 0415,Mobiles,4212.93
+416,Biography 0416,Books,187.84
+417,Toaster 0417,Home & Kitchen,2684.12
+418,Smart Watch 0418,Electronics,23114.06
+419,USB Hub 0419,Electronics,1067.97
+420,Serum 0420,Beauty,6146.38
+421,Phone Stand 0421,Mobiles,1147.91
+422,Cricket Bat 0422,Sports,1085.09
+423,Kettle 0423,Home & Kitchen,589.86
+424,Data Science Book 0424,Books,171.4
+425,Badminton Racket 0425,Sports,16829.05
+426,Air Fryer 0426,Home & Kitchen,618.5
+427,Calculator 0427,Office,1706.22
+428,Bluetooth Speaker 0428,Electronics,10168.28
+429,Wireless Earbuds 0429,Electronics,2400.35
+430,Vacuum Cleaner 0430,Home & Kitchen,9060.42
+431,Running Shoes 0431,Sports,543.49
+432,Oats 0432,Grocery,268.39
+433,Wireless Charger 0433,Mobiles,32847.52
+434,Hoodie 0434,Fashion,2328.42
+435,Docking Station 0435,Computers,11786.1
+436,Sneakers 0436,Fashion,284.63
+437,Notebook 0437,Office,3219.05
+438,T-Shirt 0438,Fashion,2082.64
+439,Vacuum Cleaner 0439,Home & Kitchen,939.4
+440,Peanut Butter 0440,Grocery,677.73
+441,T-Shirt 0441,Fashion,609.01
+442,Football 0442,Sports,6328.62
+443,Air Fryer 0443,Home & Kitchen,16707.97
+444,Docking Station 0444,Computers,50693.69
+445,System Design Book 0445,Books,565.16
+446,Yoga Mat 0446,Sports,7260.75
+447,Trimmer 0447,Beauty,175.82
+448,Notebook 0448,Office,1632.1
+449,Car Charger 0449,Mobiles,79183.21
+450,Power Bank 0450,Electronics,4971.02
+451,Perfume 0451,Beauty,2555.04
+452,Air Fryer 0452,Home & Kitchen,3284.53
+453,Football 0453,Sports,22332.62
+454,Smartphone 0454,Mobiles,2580.03
+455,Watch 0455,Fashion,1456.14
+456,Kurta 0456,Fashion,233.28
+457,Mouse 0457,Electronics,673.61
+458,Graphics Tablet 0458,Computers,72293.13
+459,Finance Book 0459,Books,244.8
+460,Sunscreen 0460,Beauty,317.33
+461,External SSD 0461,Computers,5214.57
+462,Hoodie 0462,Fashion,724.73
+463,Desk Organizer 0463,Office,3843.9
+464,Finance Book 0464,Books,109.84
+465,Docking Station 0465,Computers,1114.07
+466,T-Shirt 0466,Fashion,452.24
+467,Olive Oil 0467,Grocery,632.98
+468,Phone Case 0468,Mobiles,72868.56
+469,T-Shirt 0469,Fashion,456.44
+470,Kettle 0470,Home & Kitchen,861.01
+471,Air Fryer 0471,Home & Kitchen,381.11
+472,Dumbbell Set 0472,Sports,1559.98
+473,Mechanical Keyboard 0473,Computers,56205.12
+474,Power Bank 0474,Electronics,21795.54
+475,Hair Dryer 0475,Beauty,2130.28
+476,Calculator 0476,Office,2140.41
+477,Dumbbell Set 0477,Sports,4355.66
+478,Coffee 0478,Grocery,58.34
+479,Moisturizer 0479,Beauty,392.9
+480,Jacket 0480,Fashion,464.99
+481,Router 0481,Electronics,4331.29
+482,Resistance Band 0482,Sports,200.22
+483,Trimmer 0483,Beauty,396.02
+484,Wireless Earbuds 0484,Electronics,1190.33
+485,Wireless Charger 0485,Mobiles,965.87
+486,Cookware Set 0486,Home & Kitchen,38239.64
+487,Green Tea 0487,Grocery,104.62
+488,Car Charger 0488,Mobiles,54253.37
+489,Router 0489,Electronics,807.45
+490,Phone Case 0490,Mobiles,3095.92
+491,Green Tea 0491,Grocery,573.09
+492,Hoodie 0492,Fashion,313.38
+493,Peanut Butter 0493,Grocery,56.87
+494,Screen Guard 0494,Mobiles,9867.88
+495,System Design Book 0495,Books,1458.99
+496,Kurta 0496,Fashion,1106.56
+497,Kettle 0497,Home & Kitchen,299.05
+498,Wireless Earbuds 0498,Electronics,14014.06
+499,Shirt 0499,Fashion,2066.19
+500,Gaming Mouse 0500,Computers,40781.39
+501,Whiteboard 0501,Office,53.71
+502,Green Tea 0502,Grocery,578.84
+503,SSD 0503,Electronics,1564.8
+504,Moisturizer 0504,Beauty,2817.4
+505,Car Charger 0505,Mobiles,805.79
+506,SSD 0506,Electronics,46174.24
+507,Protein Cereal 0507,Grocery,58.09
+508,Power Bank 0508,Electronics,5977.71
+509,AI Fundamentals 0509,Books,491.05
+510,Backpack 0510,Fashion,900.3
+511,Badminton Racket 0511,Sports,2717.96
+512,Screen Guard 0512,Mobiles,452.74
+513,Oats 0513,Grocery,2029.73
+514,Sunscreen 0514,Beauty,2347.02
+515,SQL Handbook 0515,Books,2456.42
+516,Backpack 0516,Fashion,8004.26
+517,Kettle 0517,Home & Kitchen,7090.67
+518,Bluetooth Speaker 0518,Electronics,8888.52
+519,USB Hub 0519,Electronics,693.91
+520,Bluetooth Speaker 0520,Electronics,15975.43
+521,USB Hub 0521,Electronics,19997.97
+522,Football 0522,Sports,512.36
+523,Laptop 0523,Computers,16968.78
+524,Running Shoes 0524,Sports,3296.19
+525,Coffee 0525,Grocery,286.46
+526,Bluetooth Speaker 0526,Electronics,30342.9
+527,Trimmer 0527,Beauty,1380.82
+528,Kurta 0528,Fashion,3101.13
+529,Pen Set 0529,Office,4403.87
+530,Olive Oil 0530,Grocery,663.29
+531,Watch 0531,Fashion,5782.36
+532,Keyboard 0532,Electronics,3226.66
+533,Screen Guard 0533,Mobiles,444.05
+534,Football 0534,Sports,9174.65
+535,Bluetooth Speaker 0535,Electronics,4089.96
+536,Screen Guard 0536,Mobiles,91075.74
+537,Coffee 0537,Grocery,138.85
+538,Resistance Band 0538,Sports,11527.22
+539,Green Tea 0539,Grocery,843.87
+540,Cookware Set 0540,Home & Kitchen,776.21
+541,Shampoo 0541,Beauty,328.62
+542,Sneakers 0542,Fashion,597.03
+543,Coffee 0543,Grocery,1431.4
+544,USB Hub 0544,Electronics,33812.71
+545,Yoga Mat 0545,Sports,1471.66
+546,Webcam 0546,Electronics,1949.08
+547,Air Fryer 0547,Home & Kitchen,3827.27
+548,Biography 0548,Books,626.54
+549,Keyboard 0549,Electronics,1041.61
+550,Pen Set 0550,Office,248.19
+551,SQL Handbook 0551,Books,252.79
+552,Wireless Charger 0552,Mobiles,74204.56
+553,Power Bank 0553,Electronics,16589.24
+554,Sneakers 0554,Fashion,1178.67
+555,Dumbbell Set 0555,Sports,13871.52
+556,Shampoo 0556,Beauty,120.58
+557,Bedsheet 0557,Home & Kitchen,2752.87
+558,Watch 0558,Fashion,322.76
+559,Calculator 0559,Office,5574.42
+560,Phone Case 0560,Mobiles,677.92
+561,Hair Dryer 0561,Beauty,174.82
+562,Hair Dryer 0562,Beauty,143.68
+563,Resistance Band 0563,Sports,386.05
+564,Resistance Band 0564,Sports,1632.15
+565,Badminton Racket 0565,Sports,3560.43
+566,Monitor 0566,Electronics,47289.89
+567,Watch 0567,Fashion,1320.34
+568,Monitor 0568,Electronics,3403.44
+569,Webcam 0569,Electronics,24054.97
+570,Perfume 0570,Beauty,120.53
+571,Mouse 0571,Electronics,35672.13
+572,Bottle 0572,Home & Kitchen,594.24
+573,Cricket Bat 0573,Sports,944.85
+574,USB Cable 0574,Mobiles,2361.66
+575,Phone Stand 0575,Mobiles,46606.67
+576,Mouse 0576,Electronics,23944.42
+577,Hoodie 0577,Fashion,667.3
+578,Cookware Set 0578,Home & Kitchen,2194.41
+579,Wireless Earbuds 0579,Electronics,2910.8
+580,USB Hub 0580,Electronics,3237.92
+581,Football 0581,Sports,982.9
+582,Football 0582,Sports,6427.87
+583,Lamp 0583,Home & Kitchen,25967.82
+584,SSD 0584,Electronics,73371.3
+585,Sneakers 0585,Fashion,2680.31
+586,Gaming Mouse 0586,Computers,35664.14
+587,Yoga Mat 0587,Sports,3696.64
+588,Protein Cereal 0588,Grocery,2126.34
+589,Dry Fruits 0589,Grocery,969.55
+590,Perfume 0590,Beauty,5358.34
+591,Python Guide 0591,Books,245.29
+592,Router 0592,Electronics,61350.82
+593,Storage Box 0593,Home & Kitchen,812.36
+594,Dry Fruits 0594,Grocery,806.94
+595,Sunglasses 0595,Fashion,2020.53
+596,Sneakers 0596,Fashion,237.48
+597,Bluetooth Speaker 0597,Electronics,4588.4
+598,Jacket 0598,Fashion,286.15
+599,Air Fryer 0599,Home & Kitchen,19599.96
+600,Green Tea 0600,Grocery,386.9
+601,SQL Handbook 0601,Books,1327.32
+602,Shirt 0602,Fashion,5812.73
+603,Monitor 0603,Electronics,2976.93
+604,Air Fryer 0604,Home & Kitchen,10898.15
+605,Storage Box 0605,Home & Kitchen,7300.86
+606,Wireless Charger 0606,Mobiles,4648.02
+607,Car Charger 0607,Mobiles,57893.9
+608,Bedsheet 0608,Home & Kitchen,2855.46
+609,Desk Organizer 0609,Office,138.54
+610,Running Shoes 0610,Sports,10676.11
+611,Keyboard 0611,Electronics,2315.4
+612,Laptop 0612,Computers,2307.62
+613,Webcam 0613,Electronics,77010.04
+614,Data Science Book 0614,Books,591.25
+615,USB Cable 0615,Mobiles,1380.05
+616,Fast Charger 0616,Mobiles,6656.68
+617,Mixer Grinder 0617,Home & Kitchen,37336.52
+618,Kettle 0618,Home & Kitchen,2000.25
+619,Coffee 0619,Grocery,437.78
+620,Sunglasses 0620,Fashion,642.5
+621,AI Fundamentals 0621,Books,127.78
+622,SQL Handbook 0622,Books,746.53
+623,Screen Guard 0623,Mobiles,19067.11
+624,Hair Dryer 0624,Beauty,1135.25
+625,Jeans 0625,Fashion,852.46
+626,Cricket Bat 0626,Sports,1350.09
+627,USB Hub 0627,Electronics,596.85
+628,Green Tea 0628,Grocery,141.01
+629,Office Chair 0629,Office,50.0
+630,Face Wash 0630,Beauty,3401.0
+631,Keyboard 0631,Electronics,3162.96
+632,Hoodie 0632,Fashion,888.37
+633,Wireless Charger 0633,Mobiles,1988.46
+634,Dry Fruits 0634,Grocery,65.12
+635,Serum 0635,Beauty,151.37
+636,Mouse 0636,Electronics,1620.88
+637,Perfume 0637,Beauty,3118.04
+638,Oats 0638,Grocery,633.82
+639,Honey 0639,Grocery,55.09
+640,Wireless Earbuds 0640,Electronics,24092.51
+641,Perfume 0641,Beauty,267.46
+642,Wireless Charger 0642,Mobiles,2733.91
+643,Gym Gloves 0643,Sports,10160.48
+644,Dumbbell Set 0644,Sports,6900.17
+645,Jeans 0645,Fashion,5298.54
+646,Vacuum Cleaner 0646,Home & Kitchen,264.55
+647,Cricket Bat 0647,Sports,347.95
+648,Shirt 0648,Fashion,1405.87
+649,Docking Station 0649,Computers,7876.31
+650,Oats 0650,Grocery,369.47
+651,Phone Case 0651,Mobiles,97460.42
+652,Mechanical Keyboard 0652,Computers,1848.07
+653,WiFi Adapter 0653,Computers,4300.06
+654,Sunglasses 0654,Fashion,210.04
+655,Cookware Set 0655,Home & Kitchen,36080.79
+656,Football 0656,Sports,9396.76
+657,Sneakers 0657,Fashion,1205.24
+658,Running Shoes 0658,Sports,685.29
+659,Storage Box 0659,Home & Kitchen,1683.94
+660,Lamp 0660,Home & Kitchen,1679.72
+661,Webcam 0661,Electronics,3548.74
+662,Cricket Bat 0662,Sports,12392.33
+663,Shirt 0663,Fashion,318.59
+664,Desk Organizer 0664,Office,93.22
+665,Shampoo 0665,Beauty,4300.84
+666,Toaster 0666,Home & Kitchen,477.48
+667,Sneakers 0667,Fashion,3944.96
+668,Keyboard 0668,Electronics,19776.81
+669,External SSD 0669,Computers,2247.56
+670,Keyboard 0670,Electronics,21225.44
+671,Phone Stand 0671,Mobiles,9533.97
+672,SQL Handbook 0672,Books,1810.26
+673,Vacuum Cleaner 0673,Home & Kitchen,236.38
+674,Car Charger 0674,Mobiles,121254.46
+675,Power Bank 0675,Electronics,1851.37
+676,Dry Fruits 0676,Grocery,2980.32
+677,Sneakers 0677,Fashion,1916.74
+678,Pen Set 0678,Office,89.12
+679,Sneakers 0679,Fashion,9298.14
+680,Trimmer 0680,Beauty,152.3
+681,Desk Organizer 0681,Office,91.95
+682,Dry Fruits 0682,Grocery,335.62
+683,AI Fundamentals 0683,Books,1140.9
+684,Router 0684,Electronics,19984.02
+685,Olive Oil 0685,Grocery,138.43
+686,Pen Set 0686,Office,76.26
+687,Lamp 0687,Home & Kitchen,4298.22
+688,Peanut Butter 0688,Grocery,517.03
+689,Mechanical Keyboard 0689,Computers,20806.6
+690,Storage Box 0690,Home & Kitchen,26363.85
+691,Mini PC 0691,Computers,2199.37
+692,Biography 0692,Books,636.13
+693,Monitor 0693,Electronics,5478.57
+694,Kettle 0694,Home & Kitchen,2648.99
+695,Backpack 0695,Fashion,4363.7
+696,Storage Box 0696,Home & Kitchen,16536.74
+697,Wireless Charger 0697,Mobiles,1423.25
+698,Hoodie 0698,Fashion,771.81
+699,Yoga Mat 0699,Sports,20597.73
+700,Novel 0700,Books,176.54
+701,Sunscreen 0701,Beauty,230.06
+702,T-Shirt 0702,Fashion,2850.25
+703,Vacuum Cleaner 0703,Home & Kitchen,366.17
+704,Coffee 0704,Grocery,72.13
+705,SSD 0705,Electronics,866.65
+706,Phone Case 0706,Mobiles,1939.89
+707,External SSD 0707,Computers,6931.6
+708,WiFi Adapter 0708,Computers,1810.78
+709,SSD 0709,Electronics,11485.52
+710,Headphones 0710,Electronics,7613.99
+711,Vacuum Cleaner 0711,Home & Kitchen,12280.43
+712,Protein Cereal 0712,Grocery,1462.91
+713,SQL Handbook 0713,Books,270.96
+714,Hoodie 0714,Fashion,1860.59
+715,Webcam 0715,Electronics,1599.05
+716,SQL Handbook 0716,Books,339.18
+717,Hoodie 0717,Fashion,884.68
+718,Finance Book 0718,Books,426.11
+719,Calculator 0719,Office,91.86
+720,Shampoo 0720,Beauty,740.21
+721,Storage Box 0721,Home & Kitchen,7122.8
+722,Router 0722,Electronics,31585.49
+723,Sunglasses 0723,Fashion,9278.81
+724,Peanut Butter 0724,Grocery,629.22
+725,Lamp 0725,Home & Kitchen,1356.46
+726,System Design Book 0726,Books,164.33
+727,Honey 0727,Grocery,50.46
+728,Mouse 0728,Electronics,2474.94
+729,Sunglasses 0729,Fashion,2809.8
+730,Gaming Mouse 0730,Computers,36524.99
+731,Coffee 0731,Grocery,1413.43
+732,Kurta 0732,Fashion,754.73
+733,Toaster 0733,Home & Kitchen,19807.89
+734,Finance Book 0734,Books,1130.57
+735,Router 0735,Electronics,2964.87
+736,Jacket 0736,Fashion,7959.6
+737,Kettle 0737,Home & Kitchen,19239.36
+738,Perfume 0738,Beauty,3779.19
+739,Office Chair 0739,Office,9626.39
+740,Bedsheet 0740,Home & Kitchen,21587.68
+741,Monitor 0741,Electronics,1415.97
+742,Kettle 0742,Home & Kitchen,6516.54
+743,Peanut Butter 0743,Grocery,565.57
+744,Perfume 0744,Beauty,2501.76
+745,Vacuum Cleaner 0745,Home & Kitchen,1533.23
+746,WiFi Adapter 0746,Computers,21964.87
+747,Pen Set 0747,Office,313.33
+748,Dry Fruits 0748,Grocery,151.95
+749,Bedsheet 0749,Home & Kitchen,19397.33
+750,Data Science Book 0750,Books,224.2
+751,Football 0751,Sports,1690.74
+752,USB Hub 0752,Electronics,513.62
+753,Resistance Band 0753,Sports,911.35
+754,WiFi Adapter 0754,Computers,3095.34
+755,Dry Fruits 0755,Grocery,300.63
+756,Perfume 0756,Beauty,1127.9
+757,File Folder 0757,Office,799.41
+758,USB Cable 0758,Mobiles,999.89
+759,Watch 0759,Fashion,1932.33
+760,WiFi Adapter 0760,Computers,1504.32
+761,Vacuum Cleaner 0761,Home & Kitchen,992.18
+762,Yoga Mat 0762,Sports,5769.29
+763,Phone Case 0763,Mobiles,5346.95
+764,Mixer Grinder 0764,Home & Kitchen,33682.42
+765,Green Tea 0765,Grocery,208.3
+766,Resistance Band 0766,Sports,571.92
+767,Perfume 0767,Beauty,3934.22
+768,Phone Case 0768,Mobiles,39084.06
+769,Olive Oil 0769,Grocery,216.35
+770,Graphics Tablet 0770,Computers,8513.08
+771,Jacket 0771,Fashion,439.17
+772,Phone Stand 0772,Mobiles,5110.68
+773,Novel 0773,Books,923.48
+774,Calculator 0774,Office,4845.02
+775,Football 0775,Sports,571.89
+776,Oats 0776,Grocery,2015.7
+777,WiFi Adapter 0777,Computers,20446.64
+778,Laptop 0778,Computers,17966.97
+779,Perfume 0779,Beauty,3599.13
+780,Bluetooth Speaker 0780,Electronics,556.95
+781,Watch 0781,Fashion,237.28
+782,Moisturizer 0782,Beauty,1979.7
+783,Jeans 0783,Fashion,923.09
+784,Desk Mat 0784,Office,1141.15
+785,Air Fryer 0785,Home & Kitchen,5737.57
+786,External SSD 0786,Computers,146771.49
+787,Coffee 0787,Grocery,284.03
+788,External SSD 0788,Computers,84089.22
+789,Lamp 0789,Home & Kitchen,831.33
+790,Office Chair 0790,Office,4624.57
+791,Mouse 0791,Electronics,16096.73
+792,Cricket Bat 0792,Sports,1442.95
+793,Docking Station 0793,Computers,929.96
+794,Toaster 0794,Home & Kitchen,2411.07
+795,Kettle 0795,Home & Kitchen,274.23
+796,Headphones 0796,Electronics,8324.66
+797,Desk Organizer 0797,Office,1189.58
+798,Mini PC 0798,Computers,99943.3
+799,Green Tea 0799,Grocery,82.75
+800,Bedsheet 0800,Home & Kitchen,1370.95
+801,Novel 0801,Books,2195.92
+802,Headphones 0802,Electronics,75439.89
+803,Dry Fruits 0803,Grocery,380.56
+804,Honey 0804,Grocery,50.84
+805,Coffee 0805,Grocery,366.8
+806,Wireless Earbuds 0806,Electronics,13028.18
+807,Gym Gloves 0807,Sports,353.89
+808,Monitor 0808,Electronics,2000.92
+809,Kettle 0809,Home & Kitchen,3267.93
+810,Badminton Racket 0810,Sports,1680.02
+811,Football 0811,Sports,9766.03
+812,Graphics Tablet 0812,Computers,65397.57
+813,USB Cable 0813,Mobiles,4146.4
+814,Protein Cereal 0814,Grocery,838.02
+815,Keyboard 0815,Electronics,47662.72
+816,Sunglasses 0816,Fashion,410.25
+817,Wireless Earbuds 0817,Electronics,1333.0
+818,Dry Fruits 0818,Grocery,1273.73
+819,Perfume 0819,Beauty,291.27
+820,Calculator 0820,Office,672.41
+821,Air Fryer 0821,Home & Kitchen,2860.12
+822,RAM Kit 0822,Computers,145244.52
+823,Peanut Butter 0823,Grocery,2956.31
+824,T-Shirt 0824,Fashion,435.42
+825,Laptop Stand 0825,Computers,8933.68
+826,Olive Oil 0826,Grocery,50.03
+827,Gym Gloves 0827,Sports,419.94
+828,T-Shirt 0828,Fashion,323.69
+829,USB Cable 0829,Mobiles,47251.73
+830,Data Science Book 0830,Books,702.75
+831,Hoodie 0831,Fashion,961.71
+832,Laptop Stand 0832,Computers,121274.82
+833,Sunscreen 0833,Beauty,5393.31
+834,Phone Stand 0834,Mobiles,2546.76
+835,Office Chair 0835,Office,57.28
+836,Hoodie 0836,Fashion,315.11
+837,Phone Case 0837,Mobiles,39596.67
+838,System Design Book 0838,Books,1957.73
+839,Smart Watch 0839,Electronics,44954.87
+840,Backpack 0840,Fashion,461.95
+841,Backpack 0841,Fashion,202.44
+842,USB Cable 0842,Mobiles,481.37
+843,Desk Organizer 0843,Office,2025.48
+844,Resistance Band 0844,Sports,18108.12
+845,Wireless Earbuds 0845,Electronics,2382.87
+846,Coffee 0846,Grocery,504.21
+847,Coffee 0847,Grocery,2067.05
+848,Smartphone 0848,Mobiles,22167.66
+849,Graphics Tablet 0849,Computers,5230.66
+850,Running Shoes 0850,Sports,3616.61
+851,Oats 0851,Grocery,149.36
+852,Gym Gloves 0852,Sports,624.75
+853,Trimmer 0853,Beauty,4287.71
+854,Sunglasses 0854,Fashion,351.63
+855,Data Science Book 0855,Books,405.32
+856,Fast Charger 0856,Mobiles,10568.72
+857,Green Tea 0857,Grocery,390.41
+858,Laptop 0858,Computers,5403.61
+859,Vacuum Cleaner 0859,Home & Kitchen,12065.32
+860,Moisturizer 0860,Beauty,434.07
+861,Phone Case 0861,Mobiles,1313.89
+862,Green Tea 0862,Grocery,522.31
+863,Gym Gloves 0863,Sports,11816.68
+864,Graphics Tablet 0864,Computers,8581.4
+865,Mouse 0865,Electronics,539.14
+866,Novel 0866,Books,517.88
+867,Screen Guard 0867,Mobiles,64557.4
+868,Coffee 0868,Grocery,400.13
+869,Keyboard 0869,Electronics,2228.99
+870,Yoga Mat 0870,Sports,626.64
+871,Wireless Charger 0871,Mobiles,86414.45
+872,Lamp 0872,Home & Kitchen,1251.13
+873,USB Cable 0873,Mobiles,2800.65
+874,Screen Guard 0874,Mobiles,55134.58
+875,Bottle 0875,Home & Kitchen,6734.17
+876,Lamp 0876,Home & Kitchen,976.94
+877,Running Shoes 0877,Sports,4132.36
+878,Protein Cereal 0878,Grocery,226.5
+879,Peanut Butter 0879,Grocery,157.55
+880,Data Science Book 0880,Books,199.37
+881,Bedsheet 0881,Home & Kitchen,9897.54
+882,Shampoo 0882,Beauty,824.15
+883,Mixer Grinder 0883,Home & Kitchen,217.81
+884,Keyboard 0884,Electronics,46809.99
+885,Protein Cereal 0885,Grocery,465.92
+886,Phone Stand 0886,Mobiles,4944.73
+887,Mechanical Keyboard 0887,Computers,7846.35
+888,USB Hub 0888,Electronics,9327.16
+889,Serum 0889,Beauty,165.8
+890,USB Cable 0890,Mobiles,2409.53
+891,Smart Watch 0891,Electronics,28186.65
+892,Bedsheet 0892,Home & Kitchen,5447.51
+893,Hair Dryer 0893,Beauty,371.54
+894,Sunscreen 0894,Beauty,854.72
+895,Finance Book 0895,Books,316.98
+896,Perfume 0896,Beauty,3581.37
+897,Office Chair 0897,Office,213.01
+898,Mixer Grinder 0898,Home & Kitchen,267.65
+899,Car Charger 0899,Mobiles,2307.59
+900,RAM Kit 0900,Computers,5076.26
+901,Backpack 0901,Fashion,6441.31
+902,Phone Stand 0902,Mobiles,38907.46
+903,Calculator 0903,Office,9587.73
+904,Office Chair 0904,Office,144.65
+905,Serum 0905,Beauty,2135.93
+906,Olive Oil 0906,Grocery,269.95
+907,SSD 0907,Electronics,3173.65
+908,Headphones 0908,Electronics,10182.49
+909,Monitor 0909,Electronics,25751.78
+910,Power Bank 0910,Electronics,753.99
+911,Mouse 0911,Electronics,17115.32
+912,Shirt 0912,Fashion,287.0
+913,Running Shoes 0913,Sports,3332.42
+914,Graphics Tablet 0914,Computers,5955.8
+915,SSD 0915,Electronics,17218.5
+916,Mechanical Keyboard 0916,Computers,26411.6
+917,Toaster 0917,Home & Kitchen,4216.25
+918,Whiteboard 0918,Office,1523.46
+919,Bluetooth Speaker 0919,Electronics,593.58
+920,USB Cable 0920,Mobiles,11253.58
+921,Mouse 0921,Electronics,39446.28
+922,Smart Watch 0922,Electronics,4110.18
+923,SSD 0923,Electronics,19761.15
+924,System Design Book 0924,Books,972.31
+925,Calculator 0925,Office,178.42
+926,Shirt 0926,Fashion,7018.7
+927,System Design Book 0927,Books,572.1
+928,Kurta 0928,Fashion,386.63
+929,Python Guide 0929,Books,602.93
+930,Kurta 0930,Fashion,637.3
+931,File Folder 0931,Office,777.42
+932,Resistance Band 0932,Sports,8342.11
+933,Storage Box 0933,Home & Kitchen,10496.02
+934,Fast Charger 0934,Mobiles,26652.81
+935,Sneakers 0935,Fashion,1481.41
+936,Keyboard 0936,Electronics,1313.79
+937,Resistance Band 0937,Sports,816.57
+938,Phone Stand 0938,Mobiles,1929.74
+939,Protein Cereal 0939,Grocery,329.35
+940,Shirt 0940,Fashion,3930.58
+941,Watch 0941,Fashion,977.9
+942,Lamp 0942,Home & Kitchen,3108.57
+943,AI Fundamentals 0943,Books,414.63
+944,Protein Cereal 0944,Grocery,601.22
+945,Monitor 0945,Electronics,7689.52
+946,Novel 0946,Books,2008.13
+947,WiFi Adapter 0947,Computers,2491.27
+948,Trimmer 0948,Beauty,295.93
+949,Trimmer 0949,Beauty,3443.33
+950,Bottle 0950,Home & Kitchen,562.66
+951,Fast Charger 0951,Mobiles,13453.16
+952,Face Wash 0952,Beauty,4083.14
+953,Olive Oil 0953,Grocery,147.75
+954,Calculator 0954,Office,390.93
+955,Python Guide 0955,Books,2187.31
+956,Router 0956,Electronics,1284.86
+957,Smart Watch 0957,Electronics,1763.3
+958,Cricket Bat 0958,Sports,720.8
+959,Shirt 0959,Fashion,411.92
+960,Webcam 0960,Electronics,1468.59
+961,Toaster 0961,Home & Kitchen,12035.46
+962,Monitor 0962,Electronics,16676.25
+963,Router 0963,Electronics,4279.62
+964,Peanut Butter 0964,Grocery,376.73
+965,RAM Kit 0965,Computers,49241.62
+966,Phone Stand 0966,Mobiles,19355.57
+967,Peanut Butter 0967,Grocery,790.07
+968,Vacuum Cleaner 0968,Home & Kitchen,6308.21
+969,Biography 0969,Books,1423.44
+970,Vacuum Cleaner 0970,Home & Kitchen,3911.83
+971,Mouse 0971,Electronics,2878.39
+972,Oats 0972,Grocery,2127.62
+973,Sunglasses 0973,Fashion,2555.0
+974,RAM Kit 0974,Computers,109933.23
+975,Mini PC 0975,Computers,96371.33
+976,Wireless Earbuds 0976,Electronics,3369.44
+977,Monitor 0977,Electronics,3157.38
+978,Protein Cereal 0978,Grocery,101.74
+979,Smart Watch 0979,Electronics,787.31
+980,Finance Book 0980,Books,413.89
+981,Cookware Set 0981,Home & Kitchen,19596.32
+982,Power Bank 0982,Electronics,2711.09
+983,Jeans 0983,Fashion,1867.62
+984,T-Shirt 0984,Fashion,4648.73
+985,Cookware Set 0985,Home & Kitchen,693.59
+986,Car Charger 0986,Mobiles,404.29
+987,Keyboard 0987,Electronics,84952.09
+988,Oats 0988,Grocery,907.92
+989,Kettle 0989,Home & Kitchen,23416.66
+990,Storage Box 0990,Home & Kitchen,534.11
+991,Air Fryer 0991,Home & Kitchen,7803.59
+992,Keyboard 0992,Electronics,974.58
+993,Mechanical Keyboard 0993,Computers,805.57
+994,Headphones 0994,Electronics,31909.03
+995,Jeans 0995,Fashion,3564.67
+996,Mixer Grinder 0996,Home & Kitchen,1368.88
+997,Bluetooth Speaker 0997,Electronics,7780.75
+998,Smartphone 0998,Mobiles,10159.36
+999,Gym Gloves 0999,Sports,3947.85
+1000,Smart Watch 1000,Electronics,5826.9

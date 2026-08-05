@@ -1,0 +1,6 @@
+sqlite3
+python-dotenv
+pandas
+openai
+langchain
+faiss-cpu

@@ -10,7 +10,6 @@ TABLE_DESCRIPTIONS = {
 
 
 COLUMN_DESCRIPTIONS = {
-
     "customers": {
         "customer_id": "Unique identifier for a customer.",
         "name": "Full name of the customer.",
@@ -44,8 +43,10 @@ COLUMN_DESCRIPTIONS = {
 
 
 def get_relationships(schema):
-
-    relationships = {table: [] for table in schema}
+    relationships = {
+        table: []
+        for table in schema
+    }
 
     for table, info in schema.items():
 
@@ -70,8 +71,8 @@ def get_relationships(schema):
 
     return relationships
 
-def create_schema_documents():
 
+def create_schema_documents():
     schema = get_schema()
 
     relationships = get_relationships(schema)
@@ -117,7 +118,6 @@ def create_schema_documents():
                 f"{description}{pk_text}"
             )
 
-        # Useful semantic sample values only
         lines.append("\nSAMPLE VALUES:")
 
         has_samples = False
@@ -126,13 +126,13 @@ def create_schema_documents():
 
             name = column["name"]
 
-            # Skip IDs
             if name.endswith("_id"):
                 continue
 
             samples = column["sample_values"]
 
             if samples:
+
                 values = ", ".join(
                     str(value)
                     for value in samples
@@ -169,6 +169,116 @@ def create_schema_documents():
         })
 
     return documents
+
+def retrieve_relevant_schema(question):
+    documents = create_schema_documents()
+
+    question_words = set(
+        question.lower()
+        .replace("?", " ")
+        .replace(",", " ")
+        .replace(".", " ")
+        .split()
+    )
+
+    table_keywords = {
+        "customers": {
+            "customer",
+            "customers",
+            "name",
+            "city",
+            "state",
+            "signup",
+            "registered"
+        },
+
+        "products": {
+            "product",
+            "products",
+            "category",
+            "categories",
+            "price"
+        },
+
+        "orders": {
+            "order",
+            "orders",
+            "status",
+            "date",
+            "placed"
+        },
+
+        "order_items": {
+            "quantity",
+            "sold",
+            "revenue",
+            "spending",
+            "unit_price",
+            "items"
+        }
+    }
+
+    scores = {}
+
+    for document in documents:
+
+        table = document["table"]
+
+        score = len(
+            question_words &
+            table_keywords.get(table, set())
+        )
+
+        scores[table] = score
+
+    selected_tables = {
+        table
+        for table, score in scores.items()
+        if score > 0
+    }
+
+    # Revenue/spending requires order_items.
+    if question_words & {
+        "revenue",
+        "spending",
+        "spent",
+        "sales"
+    }:
+        selected_tables.add("order_items")
+
+    # Product-related quantity questions need products.
+    if question_words & {
+        "product",
+        "products",
+        "category",
+        "categories"
+    }:
+        selected_tables.add("products")
+
+    # Customer-related questions need customers.
+    if question_words & {
+        "customer",
+        "customers",
+        "name",
+        "city",
+        "state",
+        "signup"
+    }:
+        selected_tables.add("customers")
+
+    # If order_items is needed for a customer-level metric,
+    # orders are required to connect customers to order_items.
+    if (
+        "customers" in selected_tables
+        and "order_items" in selected_tables
+    ):
+        selected_tables.add("orders")
+
+    return [
+        document
+        for document in documents
+        if document["table"] in selected_tables
+    ]
 
 if __name__ == "__main__":
 

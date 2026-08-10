@@ -1,0 +1,74 @@
+[
+  {
+    "id": "customers.customer_identity",
+    "table": "customers",
+    "topic": "customer_identity",
+    "content": "Table: customers\nTopic: customer_identity\nPurpose: Unique customer records and personal identifiers.\n\nRelevant columns:\n- customer_id (INTEGER) PRIMARY KEY: [1, 2, 3]\n- name (VARCHAR(100)): ['Manish Mehta', 'Manish Das', 'Riya Singh']\n\nSample values:\n- customer_id: 1, 2, 3\n- name: Manish Mehta, Manish Das, Riya Singh"
+  },
+  {
+    "id": "customers.customer_location",
+    "table": "customers",
+    "topic": "customer_location",
+    "content": "Table: customers\nTopic: customer_location\nPurpose: Customer geography and regional segmentation.\n\nRelevant columns:\n- city (VARCHAR(80)): ['Dibrugarh', 'Guwahati', 'Silchar']\n- state (VARCHAR(80)): ['Assam', 'Bihar', 'Chandigarh']\n\nSample values:\n- city: Dibrugarh, Guwahati, Silchar\n- state: Assam, Bihar, Chandigarh"
+  },
+  {
+    "id": "customers.customer_registration",
+    "table": "customers",
+    "topic": "customer_registration",
+    "content": "Table: customers\nTopic: customer_registration\nPurpose: Customer sign-up history and registration timing.\n\nRelevant columns:\n- signup_date (DATE): ['2021-02-21', '2021-10-13', '2026-01-02']\n\nSample values:\n- signup_date: 2021-02-21, 2021-10-13, 2026-01-02"
+  },
+  {
+    "id": "products.product_identity",
+    "table": "products",
+    "topic": "product_identity",
+    "content": "Table: products\nTopic: product_identity\nPurpose: Core product inventory and naming information.\n\nRelevant columns:\n- product_id (INTEGER) PRIMARY KEY: [1, 2, 3]\n- product_name (VARCHAR(150)): ['Oats 0001', 'Jacket 0002', 'Coffee 0003']\n\nSample values:\n- product_id: 1, 2, 3\n- product_name: Oats 0001, Jacket 0002, Coffee 0003"
+  },
+  {
+    "id": "products.product_category",
+    "table": "products",
+    "topic": "product_category",
+    "content": "Table: products\nTopic: product_category\nPurpose: Product classification and category-based grouping.\n\nRelevant columns:\n- category (VARCHAR(80)): ['Beauty', 'Books', 'Computers']\n\nSample values:\n- category: Beauty, Books, Computers"
+  },
+  {
+    "id": "products.product_pricing",
+    "table": "products",
+    "topic": "product_pricing",
+    "content": "Table: products\nTopic: product_pricing\nPurpose: Product pricing and sales value context.\n\nRelevant columns:\n- price (DECIMAL(12, 2)): [955.72, 1014.9, 842.01]\n\nSample values:\n- price: 955.72, 1014.9, 842.01"
+  },
+  {
+    "id": "orders.order_identity",
+    "table": "orders",
+    "topic": "order_identity",
+    "content": "Table: orders\nTopic: order_identity\nPurpose: Order identity and order-level metadata.\n\nRelevant columns:\n- order_id (INTEGER) PRIMARY KEY: [1, 2, 3]\n- order_date (DATE): ['2023-01-02', '2023-01-03', '2023-01-04']\n\nSample values:\n- order_id: 1, 2, 3\n- order_date: 2023-01-02, 2023-01-03, 2023-01-04"
+  },
+  {
+    "id": "orders.customer_relationship",
+    "table": "orders",
+    "topic": "customer_relationship",
+    "content": "Table: orders\nTopic: customer_relationship\nPurpose: Which customer placed each order and order ownership.\n\nRelevant columns:\n- customer_id (INTEGER) FOREIGN KEY -> customers.customer_id: [1, 2, 3]\n\nRelationships:\n- orders.customer_id -> customers.customer_id\n\nSample values:\n- customer_id: 1, 2, 3"
+  },
+  {
+    "id": "orders.order_status",
+    "table": "orders",
+    "topic": "order_status",
+    "content": "Table: orders\nTopic: order_status\nPurpose: Order lifecycle state such as pending, shipped, or cancelled.\n\nRelevant columns:\n- status (VARCHAR(30)): ['Delivered', 'Shipped', 'Cancelled']\n\nSample values:\n- status: Delivered, Shipped, Cancelled"
+  },
+  {
+    "id": "order_items.order_item_identity",
+    "table": "order_items",
+    "topic": "order_item_identity",
+    "content": "Table: order_items\nTopic: order_item_identity\nPurpose: Each line item within an order and its item-level identifier.\n\nRelevant columns:\n- order_item_id (INTEGER) PRIMARY KEY: [1, 2, 3]\n- order_id (INTEGER) FOREIGN KEY -> orders.order_id: [1, 2, 3]\n\nRelationships:\n- order_items.order_id -> orders.order_id\n\nSample values:\n- order_item_id: 1, 2, 3\n- order_id: 1, 2, 3"
+  },
+  {
+    "id": "order_items.product_relationship",
+    "table": "order_items",
+    "topic": "product_relationship",
+    "content": "Table: order_items\nTopic: product_relationship\nPurpose: Product linkage between an order item and the product it contains.\n\nRelevant columns:\n- product_id (INTEGER) FOREIGN KEY -> products.product_id: [1, 2, 3]\n\nRelationships:\n- order_items.product_id -> products.product_id\n\nSample values:\n- product_id: 1, 2, 3"
+  },
+  {
+    "id": "order_items.quantity_and_revenue",
+    "table": "order_items",
+    "topic": "quantity_and_revenue",
+    "content": "Table: order_items\nTopic: quantity_and_revenue\nPurpose: Purchase quantity, unit prices, and revenue contribution for historical sales analysis.\n\nRelevant columns:\n- quantity (INTEGER): [1, 2, 3]\n- unit_price (DECIMAL(12, 2)): [1876.18, 312.28, 99.93]\n\nSample values:\n- quantity: 1, 2, 3\n- unit_price: 1876.18, 312.28, 99.93"
+  }
+]

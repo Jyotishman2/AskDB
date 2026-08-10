@@ -1,21 +1,8 @@
-from backend.text_to_sql import generate_sql
-from backend.database_executor import execute_query
+from backend.query_engine import process_question
 
 
-def ask_database(question):
-
-    sql = generate_sql(question)
-
-    print("\nGenerated SQL:\n")
-    print(sql)
-
-    result = execute_query(sql)
-
-    return {
-        "question": question,
-        "sql": sql,
-        "result": result
-    }
+def ask_database(question: str):
+    return process_question(question)
 
 
 if __name__ == "__main__":
@@ -23,17 +10,25 @@ if __name__ == "__main__":
     question = input("\nAskDB > ")
 
     try:
-
         response = ask_database(question)
 
-        print("\nResult:\n")
+        print("\nFinal SQL:\n")
+        print(response["sql"])
 
+        print("\nResult:\n")
         print(
             response["result"].to_string(
                 index=False
             )
         )
 
-    except Exception as e:
+        print("\nAnswer:\n")
+        print(response["answer"])
 
+        print(
+            f"\nRepair attempts: "
+            f"{response['repair_attempts']}"
+        )
+
+    except Exception as e:
         print(f"\nError: {e}")

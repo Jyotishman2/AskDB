@@ -1,0 +1,233 @@
+[
+  {
+    "id": 1,
+    "question": "Show the city and number of customers for the city with the highest number of customers.",
+    "category": "aggregation",
+    "status": "passed",
+    "semantic_correct": true,
+    "generated_sql": "SELECT\n  city,\n  COUNT(customer_id) AS customer_count\nFROM customers\nGROUP BY\n  city\nORDER BY\n  customer_count DESC\nLIMIT 1;",
+    "gold_sql": "SELECT city, COUNT(customer_id) AS total_customers FROM customers GROUP BY city ORDER BY total_customers DESC LIMIT 1;",
+    "from_cache": true
+  },
+  {
+    "id": 2,
+    "question": "Show the city and number of customers for the city with the lowest number of customers.",
+    "category": "aggregation",
+    "status": "passed",
+    "semantic_correct": true,
+    "generated_sql": "SELECT\n  city,\n  COUNT(customer_id) AS number_of_customers\nFROM customers\nGROUP BY\n  city\nORDER BY\n  number_of_customers ASC\nLIMIT 1;",
+    "gold_sql": "SELECT city, COUNT(customer_id) AS total_customers FROM customers GROUP BY city ORDER BY total_customers ASC LIMIT 1;",
+    "from_cache": true
+  },
+  {
+    "id": 3,
+    "question": "What is the total number of customers?",
+    "category": "aggregation",
+    "status": "passed",
+    "semantic_correct": true,
+    "generated_sql": "SELECT COUNT(customer_id) AS total_customers FROM customers;",
+    "gold_sql": "SELECT COUNT(customer_id) AS total_customers FROM customers;",
+    "from_cache": true
+  },
+  {
+    "id": 4,
+    "question": "How many different cities have customers?",
+    "category": "aggregation",
+    "status": "passed",
+    "semantic_correct": true,
+    "generated_sql": "SELECT COUNT(DISTINCT city) AS city_count FROM customers;",
+    "gold_sql": "SELECT COUNT(DISTINCT city) AS city_count FROM customers;",
+    "from_cache": true
+  },
+  {
+    "id": 5,
+    "question": "How many customers are there in each state?",
+    "category": "aggregation",
+    "status": "passed",
+    "semantic_correct": true,
+    "generated_sql": "SELECT\n  state,\n  COUNT(customer_id) AS customer_count\nFROM customers\nGROUP BY\n  state",
+    "gold_sql": "SELECT state, COUNT(customer_id) AS total_customers FROM customers GROUP BY state ORDER BY state;",
+    "from_cache": true
+  },
+  {
+    "id": 6,
+    "question": "How many customers are from Guwahati?",
+    "category": "filtering",
+    "status": "passed",
+    "semantic_correct": true,
+    "generated_sql": "SELECT COUNT(customer_id) AS total_customers\nFROM customers\nWHERE city = 'Guwahati';",
+    "gold_sql": "SELECT COUNT(customer_id) AS total_customers FROM customers WHERE city = 'Guwahati';",
+    "from_cache": true
+  },
+  {
+    "id": 7,
+    "question": "Show the names of customers from Assam.",
+    "category": "filtering",
+    "status": "passed",
+    "semantic_correct": true,
+    "generated_sql": "SELECT name FROM customers WHERE state = 'Assam';",
+    "gold_sql": "SELECT name FROM customers WHERE state = 'Assam';",
+    "from_cache": true
+  },
+  {
+    "id": 8,
+    "question": "How many customers signed up after January 1, 2025?",
+    "category": "filtering",
+    "status": "skipped",
+    "reason": "LLM API quota/rate limit"
+  },
+  {
+    "id": 9,
+    "question": "Show customers who signed up in 2026.",
+    "category": "filtering",
+    "status": "skipped",
+    "reason": "LLM API quota/rate limit"
+  },
+  {
+    "id": 10,
+    "question": "How many customers are not from Assam?",
+    "category": "filtering",
+    "status": "skipped",
+    "reason": "LLM API quota/rate limit"
+  },
+  {
+    "id": 11,
+    "question": "How many orders are there for each status?",
+    "category": "group_by",
+    "status": "skipped",
+    "reason": "LLM API quota/rate limit"
+  },
+  {
+    "id": 12,
+    "question": "What is the total quantity sold for each product category?",
+    "category": "group_by",
+    "status": "skipped",
+    "reason": "LLM API quota/rate limit"
+  },
+  {
+    "id": 13,
+    "question": "What is the total revenue for each product category?",
+    "category": "group_by",
+    "status": "skipped",
+    "reason": "LLM API quota/rate limit"
+  },
+  {
+    "id": 14,
+    "question": "How many orders were placed on each order date?",
+    "category": "group_by",
+    "status": "skipped",
+    "reason": "LLM API quota/rate limit"
+  },
+  {
+    "id": 15,
+    "question": "What is the average order quantity for each product?",
+    "category": "group_by",
+    "status": "skipped",
+    "reason": "LLM API quota/rate limit"
+  },
+  {
+    "id": 16,
+    "question": "Show each order ID along with the name of the customer who placed it.",
+    "category": "join",
+    "status": "skipped",
+    "reason": "LLM API quota/rate limit"
+  },
+  {
+    "id": 17,
+    "question": "Show each product name and the total quantity sold for that product.",
+    "category": "join",
+    "status": "skipped",
+    "reason": "LLM API quota/rate limit"
+  },
+  {
+    "id": 18,
+    "question": "Show the customer name and order status for every order.",
+    "category": "join",
+    "status": "skipped",
+    "reason": "LLM API quota/rate limit"
+  },
+  {
+    "id": 19,
+    "question": "How many orders has each customer placed?",
+    "category": "join",
+    "status": "skipped",
+    "reason": "LLM API quota/rate limit"
+  },
+  {
+    "id": 20,
+    "question": "Show each product category and the number of order items sold from that category.",
+    "category": "join",
+    "status": "skipped",
+    "reason": "LLM API quota/rate limit"
+  },
+  {
+    "id": 21,
+    "question": "Show the top 10 customers by total spending, including their names and total spending.",
+    "category": "multi_table_join",
+    "status": "skipped",
+    "reason": "LLM API quota/rate limit"
+  },
+  {
+    "id": 22,
+    "question": "Show the total revenue generated by each customer.",
+    "category": "multi_table_join",
+    "status": "skipped",
+    "reason": "LLM API quota/rate limit"
+  },
+  {
+    "id": 23,
+    "question": "Which customer generated the highest total revenue? Show the customer name and revenue.",
+    "category": "multi_table_join",
+    "status": "skipped",
+    "reason": "LLM API quota/rate limit"
+  },
+  {
+    "id": 24,
+    "question": "Show the total number of orders and total spending for each customer.",
+    "category": "multi_table_join",
+    "status": "skipped",
+    "reason": "LLM API quota/rate limit"
+  },
+  {
+    "id": 25,
+    "question": "Show the total revenue for each customer city.",
+    "category": "multi_table_join",
+    "status": "skipped",
+    "reason": "LLM API quota/rate limit"
+  },
+  {
+    "id": 26,
+    "question": "What are the top 5 products by total revenue? Show the product name and revenue.",
+    "category": "ranking",
+    "status": "skipped",
+    "reason": "LLM API quota/rate limit"
+  },
+  {
+    "id": 27,
+    "question": "What are the bottom 5 products by total quantity sold? Show the product name and quantity.",
+    "category": "ranking",
+    "status": "skipped",
+    "reason": "LLM API quota/rate limit"
+  },
+  {
+    "id": 28,
+    "question": "Which product generated the highest revenue? Show the product name and revenue.",
+    "category": "ranking",
+    "status": "skipped",
+    "reason": "LLM API quota/rate limit"
+  },
+  {
+    "id": 29,
+    "question": "Which product was sold in the highest total quantity? Show the product name and quantity.",
+    "category": "ranking",
+    "status": "skipped",
+    "reason": "LLM API quota/rate limit"
+  },
+  {
+    "id": 30,
+    "question": "Which customer has placed the most orders? Show the customer name and order count.",
+    "category": "ranking",
+    "status": "skipped",
+    "reason": "LLM API quota/rate limit"
+  }
+]

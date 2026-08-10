@@ -26,17 +26,22 @@ FORBIDDEN_EXPRESSIONS = (
 
 def validate_sql(sql: str) -> str:
 
+    if not sql or not sql.strip():
+        raise SQLValidationError(
+            "SQL query cannot be empty."
+        )
+
     try:
         statements = sqlglot.parse(
             sql,
             read="sqlite"
         )
+
     except Exception as e:
         raise SQLValidationError(
             f"Invalid SQL syntax: {e}"
         )
 
-    # Only one SQL statement
     if len(statements) != 1:
         raise SQLValidationError(
             "Only one SQL statement is allowed."
@@ -44,13 +49,11 @@ def validate_sql(sql: str) -> str:
 
     statement = statements[0]
 
-    # Must be a SELECT query
     if not isinstance(statement, exp.Select):
         raise SQLValidationError(
             "Only SELECT queries are allowed."
         )
 
-    # Block modification statements
     for forbidden in FORBIDDEN_EXPRESSIONS:
 
         if statement.find(forbidden):
@@ -58,9 +61,8 @@ def validate_sql(sql: str) -> str:
                 "Database modification is not allowed."
             )
 
-    # Validate table names
     tables = {
-        table.name
+        table.name.lower()
         for table in statement.find_all(exp.Table)
     }
 
@@ -68,38 +70,59 @@ def validate_sql(sql: str) -> str:
 
     if invalid_tables:
         raise SQLValidationError(
-            f"Unknown tables: {invalid_tables}"
+            f"Unknown tables: {sorted(invalid_tables)}"
         )
 
     return statement.sql(
         dialect="sqlite"
     )
+
+
 if __name__ == "__main__":
 
     queries = [
         "SELECT * FROM customers LIMIT 10",
 
+        "SELECT name FROM customers WHERE city = 'Guwahati'",
+
+        """
+        SELECT p.product_name, SUM(oi.quantity)
+        FROM products p
+        JOIN order_items oi
+        ON p.product_id = oi.product_id
+        GROUP BY p.product_id, p.product_name
+        """,
+
         "DELETE FROM customers",
 
         "DROP TABLE customers",
 
+        "UPDATE customers SET city = 'Delhi'",
+
+        "INSERT INTO customers VALUES (1, 'Test', 'Delhi', 'Delhi', '2025-01-01')",
+
         "SELECT * FROM fake_table",
 
-        "SELECT * FROM customers; DROP TABLE customers;"
+        "SELECT * FROM customers; DROP TABLE customers;",
+
+        "PRAGMA database_list",
+
+        "ATTACH DATABASE 'test.db' AS test"
     ]
 
     for query in queries:
 
         print("\nQuery:")
-        print(query)
+        print(query.strip())
 
         try:
+
             validated = validate_sql(query)
 
-            print("✅ SAFE")
+            print("SAFE")
             print(validated)
 
         except SQLValidationError as e:
 
-            print("❌ BLOCKED")
+            print("BLOCKED")
             print(e)

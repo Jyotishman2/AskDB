@@ -1,6 +1,8 @@
-sqlite3
+google-genai
 python-dotenv
 pandas
 openai
 langchain
 faiss-cpu
+SQLAlchemy
+sqlglot

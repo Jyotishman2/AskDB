@@ -1,0 +1,18 @@
+[
+  {
+    "table": "customers",
+    "content": "TABLE: customers\n\nDESCRIPTION:\nStores information about customers who purchase products.\n\nCOLUMNS:\n- customer_id (INTEGER): Unique identifier for a customer. Primary key.\n- name (VARCHAR(100)): Full name of the customer.\n- city (VARCHAR(80)): City where the customer is located.\n- state (VARCHAR(80)): State where the customer is located.\n- signup_date (DATE): Date when the customer registered.\n\nSAMPLE VALUES:\n- name: Manish Mehta, Manish Das, Riya Singh\n- city: Dibrugarh, Guwahati, Silchar\n- state: Assam, Bihar, Chandigarh\n- signup_date: 2021-02-21, 2021-10-13, 2026-01-02\n\nRELATIONSHIPS:\n- customers.customer_id ← orders.customer_id"
+  },
+  {
+    "table": "order_items",
+    "content": "TABLE: order_items\n\nDESCRIPTION:\nStores individual products contained within each order.\n\nCOLUMNS:\n- order_item_id (INTEGER): Unique identifier for an order item. Primary key.\n- order_id (INTEGER): Order containing this item.\n- product_id (INTEGER): Product contained in the order.\n- quantity (INTEGER): Number of units purchased.\n- unit_price (DECIMAL(12, 2)): Price of one unit at the time of purchase.\n\nSAMPLE VALUES:\n- quantity: 1, 2, 3\n- unit_price: 1876.18, 312.28, 99.93\n\nRELATIONSHIPS:\n- order_items.product_id → products.product_id\n- order_items.order_id → orders.order_id"
+  },
+  {
+    "table": "orders",
+    "content": "TABLE: orders\n\nDESCRIPTION:\nStores orders placed by customers.\n\nCOLUMNS:\n- order_id (INTEGER): Unique identifier for an order. Primary key.\n- customer_id (INTEGER): Customer who placed the order.\n- order_date (DATE): Date when the order was placed.\n- status (VARCHAR(30)): Current status of the order.\n\nSAMPLE VALUES:\n- order_date: 2023-01-02, 2023-01-03, 2023-01-04\n- status: Delivered, Shipped, Cancelled\n\nRELATIONSHIPS:\n- orders.order_id ← order_items.order_id\n- orders.customer_id → customers.customer_id"
+  },
+  {
+    "table": "products",
+    "content": "TABLE: products\n\nDESCRIPTION:\nStores information about products available for purchase.\n\nCOLUMNS:\n- product_id (INTEGER): Unique identifier for a product. Primary key.\n- product_name (VARCHAR(150)): Name of the product.\n- category (VARCHAR(80)): Category the product belongs to.\n- price (DECIMAL(12, 2)): Current listed price of the product.\n\nSAMPLE VALUES:\n- product_name: Oats 0001, Jacket 0002, Coffee 0003\n- category: Beauty, Books, Computers\n- price: 955.72, 1014.9, 842.01\n\nRELATIONSHIPS:\n- products.product_id ← order_items.product_id"
+  }
+]

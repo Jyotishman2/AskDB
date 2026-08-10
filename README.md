@@ -5,471 +5,828 @@
 [![Status](https://img.shields.io/badge/status-production-blue.svg)](https://github.com)
 [![Python](https://img.shields.io/badge/python-3.10%2B-brightgreen.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Documentation](https://img.shields.io/badge/docs-comprehensive-blue.svg)](README.md)
 
-Transform natural language questions into executable SQL queries with confidence. AskDB combines deterministic schema-based retrieval with cutting-edge semantic retrieval capabilities, delivering accurate results while maintaining production stability.
+AskDB is a schema-aware natural-language-to-SQL system that converts user questions into validated, read-only SQL queries. It combines deterministic table-level schema retrieval (production) with an experimental semantic chunk-based retrieval layer to improve query understanding.
 
-**[🎯 Quick Start](#-quick-start)** • **[📚 Full Documentation](#-full-documentation)** • **[🏗️ Architecture](#-architecture)** • **[🔧 API Reference](#-api-reference)** • **[🧪 Testing](#-testing)**
-
----
-
-## ✨ Why AskDB?
-
-### 🎯 Core Features
-
-- **🗣️ Natural Language Queries** — Ask questions in plain English, get SQL results
-- **🔀 Dual Retrieval Paths** — Production-stable legacy system + experimental semantic search
-- **⚡ Low Latency** — Sub-second query generation and execution
-- **🛡️ Safe Execution** — Read-only database access, validated SQL
-- **📊 Comprehensive Evaluation** — Semantic correctness testing built-in
-- **🔧 Extensible Architecture** — Add custom schemas, retrieval methods, validators
-- **📱 Full Stack** — FastAPI backend + React frontend included
-
-### 🏛️ Architectural Advantages
-
-```
-┌─────────────────────────────────────────────────────────┐
-│                   PRODUCTION STABILITY                   │
-│                                                          │
-│  Legacy Path (Table-Level Retrieval)                   │
-│  ✓ Proven, reliable                                    │
-│  ✓ Broad coverage                                      │
-│  ✓ Powers current queries                             │
-│                                                          │
-│  ──────────────────────────────────────────────────     │
-│                                                          │
-│  Experimental Path (Semantic Chunks)                   │
-│  ✓ Fine-grained understanding                         │
-│  ✓ Isolated from production                           │
-│  ✓ Ready for adoption when ranking improves           │
-│                                                          │
-└─────────────────────────────────────────────────────────┘
-```
-
-This dual-path design means:
-- ✅ **Zero production risk** while experimenting
-- ✅ **Easy A/B testing** of retrieval methods
-- ✅ **Clear upgrade path** when ready
-- ✅ **Learnings from both paths** feed back into improvements
+**The core innovation:** Building a precise bridge between human language → database schema → safe SQL execution.
 
 ---
 
-## 📊 System Architecture
+## 📋 Table of Contents
 
-### Layer Stack
+- [What is AskDB?](#-what-is-askdb)
+- [System Architecture](#-system-architecture)
+- [Production vs Experimental](#-production-vs-experimental-paths)
+- [Deep Dive by Layer](#-deep-dive-by-layer)
+- [How It Works (End-to-End)](#-how-it-works-end-to-end)
+- [Key Technical Insights](#-key-technical-insights)
+- [Getting Started](#-getting-started)
+- [API Reference](#-api-reference)
+- [Evaluation & Improvements](#-evaluation--improvements)
+- [File Responsibility Chart](#-file-responsibility-chart)
+
+---
+
+## ✨ What is AskDB?
+
+At its core, AskDB does one thing:
 
 ```
-                  ┌──────────────────────────────┐
-                  │   React Frontend (App.tsx)   │
-                  └──────────────┬───────────────┘
-                                 │
-                  ┌──────────────▼───────────────┐
-                  │   FastAPI Server (api.py)    │
-                  │  GET /health                 │
-                  │  POST /ask                   │
-                  └──────────────┬───────────────┘
-                                 │
-                  ┌──────────────▼───────────────┐
-                  │   Query Orchestrator         │
-                  │  (query_engine.py)           │
-                  │  1. Generate SQL             │
-                  │  2. Validate                 │
-                  │  3. Execute                  │
-                  │  4. Repair (on error)        │
-                  │  5. Explain results          │
-                  └──────────────┬───────────────┘
-                                 │
-        ┌────────────────────────┼────────────────────────┐
-        │                        │                        │
-        ▼                        ▼                        ▼
-   ┌─────────────┐      ┌─────────────┐      ┌─────────────┐
-   │  Schema     │      │  SQL Gen    │      │   Database  │
-   │ Extraction  │      │  (Gemini)   │      │  Executor   │
-   └─────────────┘      └─────────────┘      └─────────────┘
-        │                        │                        │
-        └────────────────┬───────┴────────────────────────┘
-                         │
-        ┌────────────────┼────────────────┐
-        │                │                │
-        ▼                ▼                ▼
-   ┌──────────┐   ┌──────────────┐  ┌──────────────┐
-   │  Legacy  │   │  Semantic    │  │  Evaluation  │
-   │ Retrieval│   │  Retrieval   │  │  & Testing   │
-   │(PROD)    │   │ (EXPERIMENTAL)   │              │
-   └──────────┘   └──────────────┘  └──────────────┘
-        │                │
-        └────────────────┴────────────────────────┐
-                                                  │
-        ┌─────────────────────────────────────────▼──┐
-        │                                            │
-        │        Schema + Sample Data                │
-        │        (SQLite Database)                   │
-        │                                            │
-        └────────────────────────────────────────────┘
+User asks a question in plain English
+        ↓
+AskDB converts it to SQL
+        ↓
+Executes the SQL safely
+        ↓
+Explains the result in plain English
 ```
 
-### Component Deep-Dive
+**Example:**
 
-#### 🗄️ **Layer 1: Data & Schema Foundation**
+```
+User: "Which customers placed the most orders?"
 
-The bedrock of the system. Everything depends on accurate schema understanding.
+AskDB:
+1. Understands the question structure
+2. Looks up the database schema (customers, orders tables)
+3. Generates SQL: SELECT c.id, COUNT(o.id) FROM customers c 
+                  JOIN orders o ON c.id = o.customer_id 
+                  GROUP BY c.id ORDER BY COUNT(*) DESC
+4. Validates the SQL (read-only, no dangerous operations)
+5. Executes it against SQLite
+6. Returns: "Customer #42 (Alice Johnson) placed 156 orders, 
+            the highest in the database"
+```
+
+The user doesn't write SQL. They ask in natural language.
+
+---
+
+## 🏗️ System Architecture
+
+### The Complete Picture
+
+```
+                         ┌─────────────┐
+                         │    User     │
+                         │  Question   │
+                         └──────┬──────┘
+                                │
+                                ▼
+                         ┌─────────────┐
+                         │ React UI    │
+                         │  (App.tsx)  │
+                         └──────┬──────┘
+                                │
+                                ▼
+                         ┌─────────────┐
+                         │   FastAPI   │
+                         │  POST /ask  │
+                         └──────┬──────┘
+                                │
+                                ▼
+                      ┌───────────────────┐
+                      │   Query Engine    │
+                      │ (query_engine.py) │
+                      └─────────┬─────────┘
+                                │
+                    ┌───────────┴───────────┐
+                    │                       │
+          🟢 PRODUCTION              🟡 EXPERIMENTAL
+                    │                       │
+                    ▼                       ▼
+           ┌────────────────┐      ┌─────────────────┐
+           │ Table-Level    │      │ Chunk Semantic  │
+           │ Schema Docs    │      │ Retrieval       │
+           │(LEGACY PATH)   │      │(NEW PATH)       │
+           └───────┬────────┘      └────────┬────────┘
+                   │                        │
+                   │                        │
+                   │                        ▼
+                   │                 Sentence Transformer
+                   │                 (all-MiniLM-L6-v2)
+                   │                        │
+                   │                        ▼
+                   │                  Vector Index
+                   │                 (normalized dots)
+                   │                        │
+                   └──────────┬─────────────┘
+                              │
+                              ▼
+                       ┌─────────────────┐
+                       │ Schema Context  │
+                       │ (selected info) │
+                       └────────┬────────┘
+                                │
+                                ▼
+                       ┌─────────────────┐
+                       │  Gemini LLM     │
+                       │  text_to_sql.py │
+                       │  NL → SQL       │
+                       └────────┬────────┘
+                                │
+                                ▼
+                        Generated SQL
+                                │
+                                ▼
+                       ┌─────────────────┐
+                       │  SQL Validator  │
+                       │ sql_validator.py│
+                       └────────┬────────┘
+                                │
+                           ┌────┴────┐
+                           │         │
+                        Valid      Invalid
+                           │         │
+                           │         ▼
+                           │    ┌──────────────┐
+                           │    │  SQL Repair  │
+                           │    │ sql_repair.py│
+                           │    └──────┬───────┘
+                           │           │
+                           └─────┬─────┘
+                                 │
+                                 ▼
+                       ┌─────────────────┐
+                       │  DB Executor    │
+                       │ Read-Only SQL   │
+                       │database_executor│
+                       └────────┬────────┘
+                                │
+                                ▼
+                         SQL Result Rows
+                                │
+                                ▼
+                       ┌─────────────────┐
+                       │ Result Explainer│
+                       │result_explainer │
+                       │ SQL → NL        │
+                       └────────┬────────┘
+                                │
+                                ▼
+                        Natural Language
+                           Answer
+                                │
+                                ▼
+                       ┌─────────────────┐
+                       │   React UI      │
+                       │   Displays       │
+                       │   Result        │
+                       └─────────────────┘
+```
+
+### Critical Point
+
+**The vector retriever is NOT currently controlling the main pipeline.**
+
+It's an experimental side path that exists to answer the question:
+
+> Does chunk-level semantic retrieval improve SQL generation quality compared to table-level retrieval?
+
+This is proper experimental design. You keep the production system stable while testing improvements.
+
+---
+
+## 🟢 Production vs 🟡 Experimental Paths
+
+### Production Path (Current, Stable)
+
+The system that actually powers AskDB today:
+
+```
+schema.sql
+    ↓
+create_db.py (creates database)
+    ↓
+schema_extractor.py (introspects structure)
+    ↓
+schema_documents.py (table-level documents)
+    ↓
+text_to_sql.py (Gemini generates SQL)
+    ↓
+sql_validator.py (checks safety)
+    ↓
+sql_repair.py (fixes errors)
+    ↓
+database_executor.py (read-only execution)
+    ↓
+result_explainer.py (converts to natural language)
+    ↓
+query_engine.py (orchestrates pipeline)
+    ↓
+api.py (FastAPI endpoint)
+    ↓
+App.tsx (React frontend)
+```
+
+**Status:** 🟢 Production  
+**Tested:** Yes  
+**Risk:** Low  
+**Powers:** All current queries
+
+### Experimental Path (New, Isolated)
+
+Testing whether fine-grained semantic retrieval works better:
+
+```
+schema_extractor.py (same schema info)
+    ↓
+schema_chunks.py (breaks into semantic chunks)
+    ↓
+Sentence Transformers (all-MiniLM-L6-v2)
+    ↓
+vector_store.py (builds local vector index)
+    ↓
+chunk_embeddings.npy (stores numerical vectors)
+    ↓
+chunk_metadata.json (stores chunk information)
+    ↓
+retrieve_vector_schema() (retrieval function)
+    ↓
+[NOT YET INTEGRATED - Results compared separately]
+```
+
+**Status:** 🟡 Experimental  
+**Tested:** Isolated evaluation only  
+**Risk:** None (doesn't affect production)  
+**Purpose:** Compare against legacy for improvement testing
+
+---
+
+## 📚 Deep Dive by Layer
+
+### Layer 1: Database Foundation
+
+#### `schema.sql`
+
+Defines the SQLite database structure. Contains tables like:
+
+```sql
+CREATE TABLE customers (
+    customer_id INTEGER PRIMARY KEY,
+    name TEXT,
+    location TEXT,
+    registration_date DATE
+);
+
+CREATE TABLE orders (
+    order_id INTEGER PRIMARY KEY,
+    customer_id INTEGER,
+    order_date DATE,
+    status TEXT,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+CREATE TABLE products (
+    product_id INTEGER PRIMARY KEY,
+    name TEXT,
+    category TEXT,
+    price REAL
+);
+
+CREATE TABLE order_items (
+    item_id INTEGER PRIMARY KEY,
+    order_id INTEGER,
+    product_id INTEGER,
+    quantity INTEGER,
+    unit_price REAL,
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+);
+```
+
+**Relationships:**
+
+```
+customers
+    ↓ customer_id
+orders
+    ↓ order_id
+order_items
+    ↓ product_id
+products
+```
+
+#### `create_db.py`
+
+Instantiates the schema:
 
 ```python
-# schema_extractor.py
-from sqlalchemy import inspect
+def create_database():
+    """
+    Takes schema.sql
+    Creates SQLite database file
+    Seeds sample data
+    """
+    conn = sqlite3.connect('askdb.db')
+    conn.executescript(open('schema.sql').read())
+    # Seed sample customers, orders, etc.
+    conn.commit()
+```
 
+When someone clones your project, they can recreate the entire database.
+
+---
+
+### Layer 2: Schema Extraction
+
+#### `schema_extractor.py`
+
+Automatically introspects the database to understand its structure:
+
+```python
 def extract_schema():
     """
-    Introspects database and extracts:
-    - All tables and their structure
-    - Column names, types, constraints
-    - Primary keys and foreign keys
-    - Sample values for context
+    Returns structured information about the database:
+    
+    {
+        "tables": ["customers", "products", "orders", "order_items"],
+        "columns": {
+            "customers": [
+                {
+                    "name": "customer_id",
+                    "type": "INTEGER",
+                    "constraints": ["PRIMARY KEY"]
+                },
+                {
+                    "name": "name",
+                    "type": "TEXT"
+                },
+                {
+                    "name": "location",
+                    "type": "TEXT",
+                    "sample_values": ["Silchar", "Guwahati", "Delhi", "Mumbai"]
+                }
+            ]
+        },
+        "relationships": {
+            "orders.customer_id": "customers.customer_id",
+            "order_items.order_id": "orders.order_id",
+            "order_items.product_id": "products.product_id"
+        }
+    }
     """
-    return {
-        "tables": [...],
-        "columns": [...],
-        "relationships": [...],
-        "sample_data": {...}
+```
+
+**Why sample values matter:**
+
+The LLM doesn't know your database structure. Telling it:
+
+```
+location TEXT
+```
+
+is less helpful than:
+
+```
+location TEXT
+Sample values: Silchar, Guwahati, Delhi, Mumbai
+```
+
+Sample values give semantic clues about what the column represents.
+
+---
+
+### Layer 3: Retrieval (Dual Path)
+
+#### 🟢 Path A: `schema_documents.py` (Production)
+
+Converts schema into table-level documents:
+
+```python
+def create_schema_documents():
+    """
+    Creates one document per table
+    """
+    documents = {
+        "customers": """
+            Table: customers
+            Columns: customer_id (PRIMARY KEY), name, location, registration_date
+            Relationships: referenced by orders.customer_id
+            Sample data: 1000 customer records
+            ...description...
+        """,
+        "products": """
+            Table: products
+            Columns: product_id (PRIMARY KEY), name, category, price
+            ...
+        """,
+        "orders": """
+            Table: orders
+            Columns: order_id (PRIMARY KEY), customer_id (FOREIGN KEY), order_date, status
+            Relationships: references customers, referenced by order_items
+            ...
+        """,
+        "order_items": """
+            Table: order_items
+            Columns: item_id (PRIMARY KEY), order_id (FK), product_id (FK), quantity, unit_price
+            Relationships: references orders and products
+            ...
+        """
     }
+    return documents
 ```
 
-**Files:**
-- `schema.sql` — SQLite schema definition
-- `create_db.py` — Database initialization (creates tables, seeds sample data)
-- `schema_extractor.py` — SQLAlchemy-based introspection
+**Flow:**
 
-**Responsibilities:**
-- Define all data structures
-- Establish relationships
-- Provide sample values for semantic understanding
+```
+Question: "Which customers placed the most orders?"
+    ↓
+Retrieval asks: "Which tables are relevant?"
+    ↓
+Returns: customers, orders (documents)
+    ↓
+Passes to Gemini as context
+    ↓
+Gemini knows about these tables and can write SQL
+```
+
+**Trade-off:** Simple but coarse-grained. Gets entire table description even if only one column is needed.
 
 ---
 
-#### 📡 **Layer 2: Dual Retrieval Systems**
+#### 🟡 Path B: `schema_chunks.py` + `vector_store.py` (Experimental)
 
-The innovation layer. Two independent systems working in parallel.
-
-##### Path A: Legacy Schema Documents (Production)
-
-**For:** Broad table-level understanding  
-**Status:** 🟢 Production  
-**Latency:** < 10ms
+Breaks tables into semantic chunks:
 
 ```python
-# schema_documents.py - What it does
-documents = {
-    "customers": "Description of customer table...",
-    "products": "Description of product table...",
-    "orders": "Description of order table...",
-    "order_items": "Description of order items..."
-}
+def create_semantic_chunks():
+    """
+    Instead of 4 documents (one per table),
+    create multiple chunks per table
+    """
+    chunks = [
+        # customers table chunks
+        {
+            "id": "chunk_001",
+            "table": "customers",
+            "topic": "customer_location",
+            "content": "Geographic information about customers including city, state, country",
+            "columns": ["customer_id", "location"],
+            "relationships": ["orders.customer_id"],
+            "sample_values": {"location": ["Silchar", "Guwahati", "Delhi"]}
+        },
+        {
+            "id": "chunk_002",
+            "table": "customers",
+            "topic": "customer_registration",
+            "content": "Customer account lifecycle: creation date, email, status",
+            "columns": ["customer_id", "registration_date", "email", "status"],
+            "relationships": [],
+            "sample_values": {"registration_date": "2024-01-15"}
+        },
+        # products table chunks
+        {
+            "id": "chunk_003",
+            "table": "products",
+            "topic": "product_category",
+            "content": "Product classification and categorization",
+            "columns": ["product_id", "category"],
+            "relationships": ["order_items.product_id"],
+            "sample_values": {"category": ["Electronics", "Clothing", "Books"]}
+        },
+        {
+            "id": "chunk_004",
+            "table": "products",
+            "topic": "product_pricing",
+            "content": "Product pricing information",
+            "columns": ["product_id", "price"],
+            "relationships": [],
+            "sample_values": {"price": [99.99, 49.99, 199.99]}
+        },
+        # orders table chunks
+        {
+            "id": "chunk_005",
+            "table": "orders",
+            "topic": "order_status",
+            "content": "Order fulfillment state and timing",
+            "columns": ["order_id", "order_date", "status"],
+            "relationships": ["customers.customer_id", "order_items.order_id"],
+            "sample_values": {"status": ["pending", "shipped", "delivered"]}
+        },
+        # order_items table chunks
+        {
+            "id": "chunk_006",
+            "table": "order_items",
+            "topic": "quantity_and_revenue",
+            "content": "Line item quantity and revenue calculations",
+            "columns": ["order_id", "product_id", "quantity", "unit_price"],
+            "relationships": ["orders.order_id", "products.product_id"],
+            "sample_values": {"quantity": [1, 5, 10]}
+        }
+    ]
+    return chunks
 ```
 
-**Strengths:**
-- ✅ Deterministic, cache-able results
-- ✅ Covers all tables
-- ✅ No model dependencies
-- ✅ Battle-tested
+Then these chunks are embedded:
 
-**When to use:**
-- General queries about any table
-- Broad data exploration
-- When speed is critical
+```python
+def build_vector_store():
+    """
+    Each chunk → embedding vector
+    """
+    for chunk in chunks:
+        # Text: chunk["content"] + metadata
+        # Model: sentence-transformers/all-MiniLM-L6-v2
+        embedding = embedding_model.encode(chunk["content"])
+        # embedding is now: [0.023, -0.112, 0.441, ...] (384 dimensions)
+        
+        # Normalize for cosine similarity
+        embedding = embedding / np.linalg.norm(embedding)
+        
+        # Store
+        embeddings_array.append(embedding)
+```
+
+**Flow:**
+
+```
+Question: "Where are our customers located?"
+    ↓
+Embedding: encode question to vector
+    ↓
+Similarity search: compare against all chunk embeddings
+    ↓
+Top result: chunk_001 (customer_location) with score 0.87
+    ↓
+Pass to Gemini with specific chunk context
+    ↓
+Gemini generates more targeted SQL
+```
+
+**Trade-off:** More complex but fine-grained. Gives Gemini exactly what it needs.
 
 ---
 
-##### Path B: Chunk-Based Semantic Retrieval (Experimental)
+### Layer 4: SQL Generation
 
-**For:** Fine-grained schema understanding  
-**Status:** 🟡 Experimental  
-**Latency:** 20-50ms
+#### `text_to_sql.py`
 
-```python
-# schema_chunks.py - Semantic decomposition
-chunks = [
-    {
-        "id": "chunk_001",
-        "table": "customers",
-        "topic": "customer_location",
-        "content": "Stores customer geographic information...",
-        "columns": ["city", "state", "country", "zip"],
-        "relationships": ["orders.customer_id"],
-        "sample": {"city": "San Francisco", "state": "CA"}
-    },
-    {
-        "id": "chunk_002",
-        "table": "customers",
-        "topic": "customer_registration",
-        "content": "Tracks customer account creation and status...",
-        "columns": ["registration_date", "email", "status"],
-        "relationships": [],
-        "sample": {"registration_date": "2024-01-15", "status": "active"}
-    },
-    # ... more chunks
-]
-```
-
-**How it works:**
-
-```
-Question: "Which customers from California placed orders last week?"
-    ↓
-[Embedding] "california customers recent orders" → vector
-    ↓
-[Vector Store] similarity search (all-MiniLM-L6-v2)
-    ↓
-[Retrieval]
-  ✓ Chunk 001 (customer_location) - score: 0.92
-  ✓ Chunk 003 (order_status) - score: 0.87
-  ✗ Chunk 004 (product_pricing) - score: 0.31 (filtered)
-    ↓
-[Result] Return top-K chunks with scores
-```
-
-**Strengths:**
-- ✅ Semantic understanding of relationships
-- ✅ Column-level precision
-- ✅ Detects nuanced concepts
-- ✅ Learns from example improvement
-
-**Weaknesses:**
-- ⚠️ Requires embedding model
-- ⚠️ Model-dependent quality
-- ⚠️ No caching guarantee
-- ⚠️ Not yet in production
-
-**Chunk Categories:**
-
-```
-customers.customer_location
-├─ Concept: Geographic data
-├─ Columns: city, state, country, zip
-└─ Use: Location-based queries
-
-customers.customer_registration
-├─ Concept: Account lifecycle
-├─ Columns: created_at, email, status
-└─ Use: Account age, active customers
-
-products.product_category
-├─ Concept: Product classification
-├─ Columns: category, subcategory
-└─ Use: Product filtering queries
-
-products.product_pricing
-├─ Concept: Pricing information
-├─ Columns: price, discount, cost
-└─ Use: Revenue, margin analysis
-
-orders.order_status
-├─ Concept: Order fulfillment state
-├─ Columns: status, placed_at, shipped_at
-└─ Use: Order pipeline queries
-
-order_items.quantity_and_revenue
-├─ Concept: Line item economics
-├─ Columns: quantity, unit_price, total
-└─ Use: Sales analysis, inventory
-```
-
-**Data Structure:**
-
-```json
-{
-  "chunks": [
-    {
-      "id": "unique_identifier",
-      "table": "table_name",
-      "topic": "semantic_concept",
-      "content": "Detailed description of what this chunk represents",
-      "relevant_columns": ["col1", "col2", "col3"],
-      "relationships": ["other_table.fk_column"],
-      "sample_values": {
-        "col1": "example_value",
-        "col2": "another_example"
-      }
-    }
-  ],
-  "metadata": {
-    "model": "sentence-transformers/all-MiniLM-L6-v2",
-    "embedding_dim": 384,
-    "total_chunks": 12,
-    "chunk_embeddings": "chunk_embeddings.npy"
-  }
-}
-```
-
----
-
-#### 🧠 **Layer 3: Query Processing**
-
-Where natural language becomes SQL.
-
-```
-User: "Show me the top 10 products by revenue in the last 30 days"
-  │
-  ├─→ [Schema Retrieval]
-  │   Selected: legacy path or semantic chunks
-  │
-  ├─→ [SQL Generation] (Gemini)
-  │   Prompt: Schema context + question
-  │   Output: SELECT TOP 10 products... WHERE created_at > NOW() - 30d
-  │
-  ├─→ [Validation]
-  │   ✓ Syntax check
-  │   ✓ Column existence
-  │   ✓ Type compatibility
-  │   ✓ Read-only confirmation
-  │
-  ├─→ [Execution]
-  │   Database: Execute SQL
-  │   Result: 10 rows × 5 columns
-  │
-  └─→ [Explanation]
-      Natural language summary of results
-      "Top product is Widget X with $45,320 in revenue"
-```
-
-**Components:**
-
-| Component | File | Purpose |
-|-----------|------|---------|
-| **SQL Generator** | `text_to_sql.py` | Gemini API integration |
-| **Validator** | `sql_validator.py` | Syntax + semantic checks |
-| **Repair Engine** | `sql_repair.py` | Auto-fixes common errors |
-| **Executor** | `database_executor.py` | Safe, read-only execution |
-| **Explainer** | `result_explainer.py` | Human-friendly results |
-
-**Example: SQL Generation**
+Calls Gemini API with question + schema context:
 
 ```python
-# text_to_sql.py
 def generate_sql(question: str, schema_context: str) -> str:
     """
-    Calls Gemini with:
+    Calls Google Gemini API
+    
+    Prompt includes:
     - User question
-    - Relevant schema (from retrieval)
-    - Data dictionary (sample values)
-    - Example queries (few-shot)
+    - Relevant schema information (from retrieval)
+    - Data dictionary with sample values
+    - Example queries (few-shot learning)
+    
+    Returns: SQL query string
     """
     prompt = f"""
     Given this database schema:
     {schema_context}
     
-    Generate SQL for: {question}
+    Generate a SQL query for: {question}
     
-    Rules:
+    Requirements:
     - Only SELECT queries allowed
     - Include table aliases
-    - Use clear column names
+    - Use actual column names
+    - Explain your logic
     """
-    return call_gemini_api(prompt)
+    
+    response = gemini_client.generate(prompt)
+    return extract_sql_from_response(response)
+```
+
+**Example:**
+
+```
+Input:
+  Question: "Top 5 customers by spending"
+  Schema: customers table, orders table, order_items table
+  
+Output:
+  SELECT c.id, c.name, SUM(oi.unit_price * oi.quantity) as total_spending
+  FROM customers c
+  JOIN orders o ON c.id = o.customer_id
+  JOIN order_items oi ON o.id = oi.order_id
+  GROUP BY c.id, c.name
+  ORDER BY total_spending DESC
+  LIMIT 5;
 ```
 
 ---
 
-#### 🎯 **Layer 4: Orchestration**
+### Layer 5: Validation & Repair
 
-The conductor that ties everything together.
+#### `sql_validator.py`
+
+Checks whether generated SQL is safe and valid:
 
 ```python
-# query_engine.py - Main orchestrator
+def validate_sql(sql: str) -> bool:
+    """
+    Checks:
+    - Only SELECT (no DROP, INSERT, DELETE, UPDATE)
+    - All referenced tables exist
+    - All referenced columns exist
+    - Column types are compatible
+    - No infinite loops or circular references
+    """
+    if not sql.strip().upper().startswith('SELECT'):
+        raise Exception("Only SELECT queries allowed")
+    
+    # Parse and validate against schema
+    ast = parse_sql(sql)
+    for table in ast.tables:
+        if table not in known_tables:
+            raise Exception(f"Unknown table: {table}")
+    
+    # ... more checks ...
+    return True
+```
+
+#### `sql_repair.py`
+
+Attempts to fix common SQL generation errors:
+
+```python
+def repair_sql(sql: str, error: str) -> str:
+    """
+    Common error patterns:
+    
+    1. Column doesn't exist
+       "Unknown column 'customer_name'"
+       → Fuzzy match to actual column name
+       
+    2. Table doesn't exist
+       "Unknown table 'customer'"
+       → Did you mean 'customers'?
+       
+    3. Missing JOIN condition
+       → Infer from foreign keys
+    """
+    
+    if "Unknown column" in error:
+        # Extract mentioned column, find closest match
+        mentioned = extract_column_name(error)
+        closest = fuzzy_match_column(mentioned, all_columns)
+        sql = sql.replace(mentioned, closest)
+        
+    elif "Unknown table" in error:
+        mentioned = extract_table_name(error)
+        closest = fuzzy_match_table(mentioned, all_tables)
+        sql = sql.replace(mentioned, closest)
+    
+    return sql
+```
+
+---
+
+### Layer 6: Database Execution
+
+#### `database_executor.py`
+
+Executes validated SQL safely:
+
+```python
+def execute_sql(sql: str):
+    """
+    1. Connection uses read-only connection (sqlite3 with restricted permissions)
+    2. Execute SQL
+    3. Return results
+    """
+    conn = sqlite3.connect(':memory:')
+    # Load database in read-only mode
+    conn.execute('PRAGMA query_only = ON;')
+    
+    cursor = conn.execute(sql)
+    results = cursor.fetchall()
+    
+    return results
+```
+
+**Safety:** Database connection is read-only. Even if SQL validation failed, no data can be modified.
+
+---
+
+### Layer 7: Result Explanation
+
+#### `result_explainer.py`
+
+Converts raw SQL results to natural language:
+
+```python
+def explain_result(question: str, sql: str, results: List) -> str:
+    """
+    Takes raw query results and explains them to user
+    """
+    
+    # Example:
+    # Raw results: [("Alice", 156), ("Bob", 142), ("Carol", 138)]
+    # Explanation:
+    
+    if len(results) == 0:
+        return "No results found."
+    
+    if len(results) == 1 and len(results[0]) == 1:
+        # Single number result
+        value = results[0][0]
+        return f"The answer is {value}."
+    
+    # Multiple results
+    explanation = "The results are:\n"
+    for row in results[:5]:  # Top 5
+        explanation += f"  - {row[0]}: {row[1]}\n"
+    
+    if len(results) > 5:
+        explanation += f"  ... and {len(results) - 5} more."
+    
+    return explanation
+```
+
+---
+
+### Layer 8: Orchestration
+
+#### `query_engine.py`
+
+Coordinates the entire pipeline:
+
+```python
 class QueryEngine:
-    def process_question(self, question: str):
+    def process_question(self, question: str) -> dict:
         """
-        1. Retrieve schema
-        2. Generate SQL
-        3. Execute
-        4. Handle errors
-        5. Explain results
+        Main orchestration logic
         """
         try:
-            # Step 1: Retrieval
+            # Step 1: Retrieve schema context
             schema_context = self.retrieve_schema(question)
             
-            # Step 2: Generation
+            # Step 2: Generate SQL
             sql = self.generate_sql(question, schema_context)
             
-            # Step 3: Validation
+            # Step 3: Validate
             is_valid = self.validate_sql(sql)
-            if not is_valid:
-                sql = self.repair_sql(sql, schema_context)
             
-            # Step 4: Execution
+            if not is_valid:
+                # Step 4: Repair
+                sql = self.repair_sql(sql)
+                # Validate repaired SQL
+                self.validate_sql(sql)
+            
+            # Step 5: Execute
             results = self.execute_sql(sql)
             
-            # Step 5: Explanation
-            explanation = self.explain_results(results)
+            # Step 6: Explain
+            explanation = self.explain_result(question, sql, results)
             
             return {
+                "status": "success",
                 "question": question,
                 "sql": sql,
                 "results": results,
                 "explanation": explanation
             }
+            
         except Exception as e:
-            return {"error": str(e)}
-```
-
-**Flow Control:**
-
-```
-Request → Validation → Retrieval → Generation → Validation → Execution → Explanation → Response
-            ↓                                        ↓                           ↓
-         Fail fast                            Repair or reject            Format for user
+            return {
+                "status": "error",
+                "error": str(e),
+                "question": question
+            }
 ```
 
 ---
 
-#### 🌐 **Layer 5: API & Frontend**
+### Layer 9: API & Frontend
 
-User-facing interfaces.
+#### `api.py`
 
-**FastAPI Endpoints:**
+FastAPI server:
 
 ```python
-# api.py
-@app.get("/health")
-def health_check():
-    """System health and readiness"""
-    return {
-        "status": "ok",
-        "components": {
-            "database": "connected",
-            "gemini_api": "connected",
-            "vector_store": "ready"
-        }
-    }
-
 @app.post("/ask")
 def ask_question(request: AskRequest):
     """
-    Ask a natural language question
-    
     Request:
     {
-        "question": "How many orders shipped last week?",
-        "use_experimental": false  # Use legacy or semantic retrieval
+        "question": "How many orders shipped last week?"
     }
     
-    Response:
+    Returns:
     {
+        "status": "success",
         "question": "...",
         "sql": "SELECT ...",
         "results": [...],
-        "explanation": "...",
-        "retrieval_path": "legacy|experimental",
-        "latency_ms": 1234
+        "explanation": "..."
     }
     """
     return engine.process_question(request.question)
 ```
 
-**React Frontend:**
+#### `App.tsx`
+
+React frontend:
 
 ```typescript
-// App.tsx
 const AskDB: React.FC = () => {
   const [question, setQuestion] = useState("");
   const [results, setResults] = useState(null);
@@ -486,19 +843,19 @@ const AskDB: React.FC = () => {
   return (
     <div>
       <input 
-        value={question} 
+        value={question}
         onChange={e => setQuestion(e.target.value)}
-        placeholder="Ask a question..."
+        placeholder="Ask a question about the data..."
       />
       <button onClick={handleAsk}>Ask</button>
       
       {results && (
         <>
-          <h3>SQL Generated</h3>
+          <h3>Generated SQL</h3>
           <code>{results.sql}</code>
           
           <h3>Results</h3>
-          <table>{/* Display results */}</table>
+          <pre>{JSON.stringify(results.results, null, 2)}</pre>
           
           <h3>Explanation</h3>
           <p>{results.explanation}</p>
@@ -511,264 +868,252 @@ const AskDB: React.FC = () => {
 
 ---
 
-#### 📊 **Layer 6: Evaluation & Testing**
+## ⚙️ How It Works End-to-End
 
-Continuous quality assurance.
+### Concrete Example
 
-```python
-# evaluate.py - Semantic correctness testing
-def evaluate_queries():
-    """
-    For each test query:
-    1. Generate SQL
-    2. Execute
-    3. Compare results with expected
-    4. Calculate accuracy metrics
-    """
-    test_cases = load_test_queries()  # test_queries.json
-    results = []
-    
-    for test in test_cases:
-        generated_sql = generate_sql(test["question"])
-        actual_results = execute(generated_sql)
-        expected_results = test["expected_results"]
-        
-        accuracy = calculate_similarity(actual_results, expected_results)
-        
-        results.append({
-            "question": test["question"],
-            "accuracy": accuracy,
-            "matches": accuracy > 0.95,
-            "generated_sql": generated_sql,
-            "expected_sql": test["expected_sql"]
-        })
-    
-    save_results(results)  # evaluation_results.json
-    return calculate_metrics(results)
+**User asks:** "Which customers from California had orders last week?"
+
+**Step 1: React frontend**
+```
+Input: "Which customers from California had orders last week?"
+       ↓
+       POST /ask
 ```
 
-**Test Case Format:**
+**Step 2: Query Engine retrieval**
+```
+Question: "Which customers from California had orders last week?"
+       ↓
+Legacy path: Retrieves customers + orders documents
+    OR
+Experimental path: 
+  - Embeds question
+  - Finds chunk_001 (customer_location) - score 0.91
+  - Finds chunk_005 (order_status) - score 0.88
+  - Passes these chunks to Gemini
+```
 
-```json
+**Step 3: SQL generation**
+```
+Gemini receives:
+  Question: "Which customers from California had orders last week?"
+  Schema: [relevant tables/columns]
+  
+Generates:
+  SELECT DISTINCT c.name, c.location
+  FROM customers c
+  JOIN orders o ON c.id = o.customer_id
+  WHERE c.location = 'California'
+  AND o.order_date >= DATE('now', '-7 days')
+```
+
+**Step 4: Validation**
+```
+Check:
+  ✓ Only SELECT query
+  ✓ customers table exists
+  ✓ orders table exists
+  ✓ All columns exist
+  ✓ No dangerous operations
+  
+Status: Valid
+```
+
+**Step 5: Execution**
+```
+Results:
+  [
+    ("Alice Johnson", "California"),
+    ("Bob Smith", "California"),
+    ("Carol White", "California")
+  ]
+```
+
+**Step 6: Explanation**
+```
+"Three customers from California placed orders in the last week:
+ Alice Johnson, Bob Smith, and Carol White."
+```
+
+**Step 7: Return to frontend**
+```
 {
-  "test_cases": [
-    {
-      "id": "q001",
-      "question": "How many orders were placed in January 2024?",
-      "expected_sql": "SELECT COUNT(*) FROM orders WHERE MONTH(created_at) = 1 AND YEAR(created_at) = 2024",
-      "expected_results": [{"count": 145}],
-      "difficulty": "easy",
-      "tags": ["temporal", "aggregation"]
-    },
-    {
-      "id": "q002",
-      "question": "Which customers from CA made purchases over $1000 last quarter?",
-      "expected_sql": "SELECT DISTINCT c.id, c.name FROM customers c JOIN orders o ON c.id = o.customer_id WHERE c.state = 'CA' AND o.total > 1000 AND o.created_at > DATE_SUB(NOW(), INTERVAL 3 MONTH)",
-      "expected_results": [...],
-      "difficulty": "hard",
-      "tags": ["joins", "filtering", "temporal"]
-    }
-  ],
-  "metrics": {
-    "total_tests": 50,
-    "passed": 47,
-    "accuracy_percentage": 94.0,
-    "by_difficulty": {
-      "easy": 98.0,
-      "medium": 92.0,
-      "hard": 86.0
-    }
-  }
+  "status": "success",
+  "question": "Which customers from California had orders last week?",
+  "sql": "SELECT DISTINCT c.name, c.location ...",
+  "results": [...],
+  "explanation": "Three customers from California..."
 }
+```
+
+**Step 8: Display**
+```
+Frontend shows:
+  ✓ The question
+  ✓ The generated SQL (for transparency)
+  ✓ The results in a table
+  ✓ The natural language explanation
 ```
 
 ---
 
-## 🚀 Quick Start
+## 🎯 Key Technical Insights
+
+### 1. The Bridge Between Languages
+
+AskDB is fundamentally about building a bridge:
+
+```
+Human Language          Database Schema          SQL
+    ↕                        ↕                    ↕
+"customers from            (customers.location   SELECT ...
+California"               = 'California')        WHERE location = 'CA'
+```
+
+The more precise this bridge, the better the SQL generation.
+
+### 2. Two Retrieval Approaches
+
+**Table-level (Legacy - Production):**
+```
+Question → 4 table documents → LLM sees all columns → SQL
+```
+
+**Chunk-level (Experimental):**
+```
+Question → Semantic embedding → 2-3 targeted chunks → LLM sees only relevant columns → SQL
+```
+
+The experiment tests: Does targeted context produce better SQL?
+
+### 3. Safety by Layering
+
+```
+Layer 1: LLM generates SQL (might be wrong)
+         ↓
+Layer 2: Validator checks (catches most errors)
+         ↓
+Layer 3: Repair attempts fix (handles common issues)
+         ↓
+Layer 4: DB connection is read-only (final safety net)
+```
+
+Even if everything fails, the database can't be modified.
+
+### 4. Why Not Integrate Experimental Yet?
+
+**Bad approach:**
+```
+Replace legacy → SQL accuracy ↓ → Don't know why → Revert
+```
+
+**Good approach (current):**
+```
+Run both in parallel → Compare results → Only integrate if experimental wins
+```
+
+This is proper experimental design.
+
+### 5. Sample Values Are Critical
+
+The difference between:
+
+```
+location TEXT
+```
+
+and:
+
+```
+location TEXT
+Sample: Silchar, Guwahati, Delhi, Mumbai
+```
+
+The LLM uses these clues to understand what goes in each column. Without them, it might try:
+
+```sql
+WHERE location = 123  -- Wrong! location is text, not numbers
+```
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
 ```bash
-# System requirements
-- Python 3.10 or higher
-- SQLite 3.30+
-- 2GB RAM minimum
-- Active Google Cloud account (for Gemini API)
+python3.10+
+sqlite3
+pip
 ```
 
 ### Installation
 
-**Step 1: Clone and setup**
-
 ```bash
+# Clone repo
 git clone https://github.com/yourusername/askdb.git
 cd askdb
 
 # Create virtual environment
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt
 ```
 
-**Step 2: Configure credentials**
+### Setup
 
 ```bash
-# Create .env file
+# 1. Create .env file
 cat > .env << EOF
 GEMINI_API_KEY=your_api_key_here
 DATABASE_PATH=./data/askdb.db
-LOG_LEVEL=INFO
-EXPERIMENTAL_RETRIEVAL=false
 EOF
-```
 
-**Step 3: Initialize database**
-
-```bash
-# Create schema and seed sample data
+# 2. Initialize database
 python create_db.py
+# ✓ Database created at ./data/askdb.db
+# ✓ Schema initialized
+# ✓ Sample data seeded
 
-# Expected output:
-# ✓ Created tables: customers, products, orders, order_items
-# ✓ Seeded 1000 customers, 500 products, 5000 orders
-# ✓ Database ready: ./data/askdb.db
-```
+# 3. Extract schema
+python schema_extractor.py
+# ✓ Schema extracted
 
-**Step 4: Build retrieval indices**
-
-```bash
-# Generate legacy documents (required)
+# 4. Build retrieval indices
 python retrieval/schema_documents.py
-# ✓ Generated 4 schema documents
+# ✓ Legacy retrieval ready
 
-# Build semantic chunks (optional but recommended)
 python retrieval/schema_chunks.py
-# ✓ Generated 12 semantic chunks
-
-# Create vector embeddings
 python retrieval/vector_store.py
-# ✓ Built vector index (all-MiniLM-L6-v2)
-# ✓ Saved to: chunk_embeddings.npy, chunk_metadata.json
-```
+# ✓ Experimental retrieval ready (optional)
 
-**Step 5: Start the API**
-
-```bash
+# 5. Start API
 python api.py
-# Starting AskDB API server...
-# INFO: Uvicorn running on http://127.0.0.1:8000
-# INFO: Database connected
-# INFO: Vector store loaded (12 chunks, 384-dim)
-# Ready to accept queries!
+# INFO: Server running on http://localhost:8000
 ```
 
-**Step 6: Test it out**
+### Test
 
 ```bash
-# Terminal 1: API is running (see above)
+# Terminal 1: API running (see above)
 
-# Terminal 2: Make a request
+# Terminal 2: Test a query
 curl -X POST http://localhost:8000/ask \
   -H "Content-Type: application/json" \
-  -d '{
-    "question": "How many customers are from California?",
-    "use_experimental": false
-  }'
+  -d '{"question": "How many customers are from California?"}'
 
 # Response:
 {
+  "status": "success",
   "question": "How many customers are from California?",
-  "sql": "SELECT COUNT(*) FROM customers WHERE state = 'CA'",
-  "results": [{"count": 342}],
-  "explanation": "There are 342 customers from California in the database.",
-  "retrieval_path": "legacy",
-  "latency_ms": 1234
+  "sql": "SELECT COUNT(*) FROM customers WHERE location = 'California'",
+  "results": [[342]],
+  "explanation": "There are 342 customers from California in the database."
 }
 ```
-
-**Step 7: Open the frontend**
-
-```bash
-# Navigate to http://localhost:8000 in your browser
-# You should see the AskDB interface
-
-# Or start the React dev server (if running separately)
-cd frontend
-npm install
-npm start
-# Opens http://localhost:3000
-```
-
----
-
-## 📚 Full Documentation
-
-### Configuration
-
-Create a `.env` file in the project root:
-
-```env
-# Core Configuration
-DATABASE_PATH=./data/askdb.db
-GEMINI_API_KEY=your_gemini_api_key
-
-# API Server
-API_HOST=0.0.0.0
-API_PORT=8000
-LOG_LEVEL=INFO
-
-# Retrieval Strategy
-RETRIEVAL_METHOD=legacy              # legacy | experimental | hybrid
-EXPERIMENTAL_RETRIEVAL=false         # Enable experimental chunk-based retrieval
-HYBRID_WEIGHTS={"legacy": 0.6, "experimental": 0.4}
-
-# Semantic Retrieval (Experimental)
-EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
-VECTOR_INDEX_PATH=./data/chunk_embeddings.npy
-CHUNK_METADATA_PATH=./data/chunk_metadata.json
-RETRIEVAL_TOP_K=5
-MIN_SIMILARITY_SCORE=0.3
-
-# SQL Generation
-SQL_GENERATION_TIMEOUT=30
-MAX_REPAIR_ATTEMPTS=3
-ENABLE_AUTO_REPAIR=true
-
-# Database
-DATABASE_READ_ONLY=true
-QUERY_TIMEOUT=60
-EXPLAIN_RESULTS=true
-
-# Performance
-CACHE_SCHEMA_DOCUMENTS=true
-CACHE_TTL_SECONDS=3600
-VECTOR_SEARCH_BATCH_SIZE=100
-
-# Development
-DEBUG_MODE=false
-VERBOSE_LOGGING=false
-SAVE_QUERY_LOGS=true
-QUERY_LOG_PATH=./logs/queries.log
-```
-
-### Environment Variables Explained
-
-| Variable | Type | Default | Description |
-|----------|------|---------|-------------|
-| `DATABASE_PATH` | string | `./data/askdb.db` | Path to SQLite database file |
-| `GEMINI_API_KEY` | string | Required | Google Gemini API key for SQL generation |
-| `API_HOST` | string | `0.0.0.0` | Server host binding |
-| `API_PORT` | int | `8000` | Server port |
-| `RETRIEVAL_METHOD` | enum | `legacy` | Which retrieval strategy to use |
-| `EXPERIMENTAL_RETRIEVAL` | bool | `false` | Enable experimental semantic retrieval |
-| `EMBEDDING_MODEL` | string | `all-MiniLM-L6-v2` | Sentence transformer model |
-| `RETRIEVAL_TOP_K` | int | `5` | Number of chunks to retrieve |
-| `MIN_SIMILARITY_SCORE` | float | `0.3` | Minimum similarity threshold (0-1) |
-| `SQL_GENERATION_TIMEOUT` | int | `30` | Timeout in seconds for Gemini API |
-| `CACHE_SCHEMA_DOCUMENTS` | bool | `true` | Cache schema for performance |
-| `DEBUG_MODE` | bool | `false` | Enable debug logging |
 
 ---
 
@@ -776,662 +1121,152 @@ QUERY_LOG_PATH=./logs/queries.log
 
 ### POST /ask
 
-Ask a natural language question and get SQL results.
-
 **Request:**
-
 ```json
 {
-  "question": "What are the top 5 best-selling products by revenue?",
-  "use_experimental": false,
-  "explain": true,
-  "timeout_seconds": 30
+  "question": "What are the top 5 products by revenue?"
 }
 ```
 
-**Parameters:**
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `question` | string | ✓ | Natural language question |
-| `use_experimental` | boolean | - | Use experimental retrieval path (default: false) |
-| `explain` | boolean | - | Generate natural language explanation (default: true) |
-| `timeout_seconds` | integer | - | Query timeout (default: 30) |
-
-**Response (Success):**
-
+**Response:**
 ```json
 {
   "status": "success",
-  "question": "What are the top 5 best-selling products by revenue?",
-  "sql_generated": "SELECT p.name, SUM(oi.total) as revenue FROM products p JOIN order_items oi ON p.id = oi.product_id GROUP BY p.id ORDER BY revenue DESC LIMIT 5",
+  "question": "What are the top 5 products by revenue?",
+  "sql": "SELECT p.name, SUM(oi.unit_price * oi.quantity) as revenue FROM products p JOIN order_items oi ON p.id = oi.product_id GROUP BY p.id ORDER BY revenue DESC LIMIT 5",
   "results": [
-    {"name": "Premium Widget", "revenue": 125000},
-    {"name": "Deluxe Gadget", "revenue": 98500},
-    {"name": "Ultra Tool", "revenue": 87300},
-    {"name": "Pro Device", "revenue": 76200},
-    {"name": "Elite System", "revenue": 65100}
+    ["Premium Widget", 125000],
+    ["Deluxe Gadget", 98500],
+    ["Ultra Tool", 87300]
   ],
-  "explanation": "The top 5 best-selling products by revenue are Premium Widget ($125k), Deluxe Gadget ($98.5k), Ultra Tool ($87.3k), Pro Device ($76.2k), and Elite System ($65.1k). Together they account for over $450k in revenue.",
-  "retrieval_path": "legacy",
-  "schema_context_used": ["customers", "products", "orders", "order_items"],
-  "generation_time_ms": 2340,
-  "execution_time_ms": 145,
-  "total_time_ms": 2485,
-  "result_rows": 5,
-  "result_columns": 2
-}
-```
-
-**Response (Error):**
-
-```json
-{
-  "status": "error",
-  "error_type": "GenerationError",
-  "message": "Could not generate valid SQL from question",
-  "details": "Question references undefined column 'sales_date'. Did you mean 'created_at'?",
-  "question": "What were sales by sales_date?",
-  "suggestions": [
-    "Try: 'What were sales by creation date?'",
-    "Try: 'What were sales by order date?'"
-  ]
-}
-```
-
-### GET /health
-
-Check system health and component status.
-
-**Response:**
-
-```json
-{
-  "status": "healthy",
-  "timestamp": "2024-01-15T10:30:00Z",
-  "uptime_seconds": 3600,
-  "components": {
-    "database": {
-      "status": "connected",
-      "tables": 4,
-      "total_rows": 156800,
-      "last_checked": "2024-01-15T10:30:00Z"
-    },
-    "gemini_api": {
-      "status": "connected",
-      "requests_today": 245,
-      "rate_limit_remaining": 9755
-    },
-    "vector_store": {
-      "status": "ready",
-      "chunks_loaded": 12,
-      "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
-      "index_size_mb": 4.2
-    }
-  },
-  "performance": {
-    "avg_query_time_ms": 1200,
-    "cache_hit_rate": 0.78,
-    "success_rate": 0.94
-  }
-}
-```
-
-### GET /schema
-
-Get the current schema information.
-
-**Response:**
-
-```json
-{
-  "tables": [
-    {
-      "name": "customers",
-      "columns": [
-        {"name": "id", "type": "INTEGER", "constraints": ["PRIMARY KEY"]},
-        {"name": "name", "type": "TEXT"},
-        {"name": "email", "type": "TEXT", "constraints": ["UNIQUE"]},
-        {"name": "state", "type": "TEXT"},
-        {"name": "created_at", "type": "TIMESTAMP"}
-      ],
-      "row_count": 1000,
-      "sample_data": {
-        "name": "John Smith",
-        "email": "john@example.com",
-        "state": "CA"
-      }
-    },
-    {
-      "name": "products",
-      "columns": [...],
-      "row_count": 500,
-      "sample_data": {...}
-    }
-  ],
-  "relationships": [
-    {"from": "orders.customer_id", "to": "customers.id"},
-    {"from": "order_items.order_id", "to": "orders.id"},
-    {"from": "order_items.product_id", "to": "products.id"}
-  ]
+  "explanation": "The top products by revenue are Premium Widget ($125k), Deluxe Gadget ($98.5k), and Ultra Tool ($87.3k)."
 }
 ```
 
 ---
 
-## 🧪 Testing & Evaluation
+## 📊 Evaluation & Improvements
 
-### Run Evaluation Suite
+### Testing Framework
 
 ```bash
-# Run all tests
 python evaluate.py
-
-# Run specific test category
-python evaluate.py --category aggregation
-python evaluate.py --category joins
-python evaluate.py --category temporal
-
-# Run with experimental retrieval
-python evaluate.py --use_experimental
-
-# Compare both retrieval methods
-python evaluate.py --compare_methods
 ```
 
-**Output Example:**
+This compares:
+- Legacy retrieval accuracy
+- Experimental retrieval accuracy
+- Which performs better on different query types
 
+**Output:**
 ```
-AskDB Evaluation Suite
-═════════════════════════════════════
+Evaluation Results
+════════════════════════════════════════
 
-Testing: Legacy Retrieval Path
-├─ Questions: 50
-├─ Passed: 47
-├─ Failed: 3
-├─ Accuracy: 94.0%
-├─ Avg Generation Time: 2,340ms
-├─ Avg Execution Time: 145ms
-└─ Avg Explanation Time: 210ms
-
-Testing: Experimental Retrieval Path
-├─ Questions: 50
-├─ Passed: 45
-├─ Failed: 5
-├─ Accuracy: 90.0%
-├─ Avg Generation Time: 1,980ms (15% faster)
-├─ Avg Execution Time: 142ms
-└─ Avg Explanation Time: 198ms
-
-Comparison:
-├─ Accuracy: Legacy wins (94% vs 90%)
-├─ Speed: Experimental faster (1.98s vs 2.35s)
-├─ Better joins handling: Experimental (85% vs 75%)
-└─ Recommendation: Keep legacy as default
-
-Failed Tests - Legacy:
-├─ q032: Complex multi-table join
-├─ q041: Subquery with aggregation
-└─ q048: Temporal range with timezone
-
-Failed Tests - Experimental:
-├─ q015: Broad table references
-├─ q032: Complex multi-table join
-├─ q041: Subquery with aggregation
-├─ q048: Temporal range with timezone
-└─ q050: Date arithmetic expressions
-
-Saved detailed results to: evaluation_results.json
+Legacy (Table-Level Retrieval):
+  Total tests: 50
+  Passed: 47
+  Accuracy: 94%
+  
+Experimental (Chunk-Level Retrieval):
+  Total tests: 50
+  Passed: 45
+  Accuracy: 90%
+  
+Recommendation: Keep legacy as default
+Next step: Improve chunk selection for experimental
 ```
 
-### Add Custom Tests
+### The Ultimate Goal
+
+Eventually, experimental should win on accuracy. Then you can switch:
 
 ```python
-# test_queries.json - Add new test cases
-
-{
-  "test_cases": [
-    {
-      "id": "q_custom_001",
-      "question": "Your custom question here",
-      "expected_sql": "SELECT ... (expected query)",
-      "expected_results": [{"column": "value"}],
-      "difficulty": "easy|medium|hard",
-      "tags": ["tag1", "tag2"],
-      "notes": "Why this test matters"
-    }
-  ]
-}
-
-# Then run:
-python evaluate.py --test test_queries.json
+# In query_engine.py
+RETRIEVAL_METHOD = "experimental"  # Flip the switch
 ```
 
 ---
 
-## 📊 Performance Benchmarks
+## 📋 File Responsibility Chart
 
-### Latency Breakdown
-
-```
-Typical query: "Show me the top 10 customers by spending"
-
-Component          Duration    % of Total    Notes
-─────────────────────────────────────────────────────
-Schema Retrieval   ~50ms       2%           Legacy path (cached)
-SQL Generation     ~2,300ms    92%          Gemini API call
-SQL Validation     ~30ms       1%           Syntax check
-DB Execution       ~145ms      6%           Query execution
-Explanation Gen.   ~210ms      8%           Natural language gen
-─────────────────────────────────────────────────────
-TOTAL              ~2,735ms    100%
-
-With caching:      ~400ms                   50-80% faster
-```
-
-### Scalability
-
-| Metric | Small DB | Medium DB | Large DB |
-|--------|----------|-----------|----------|
-| Size | 100K rows | 1M rows | 10M+ rows |
-| Schema | 4-10 tables | 20-50 tables | 100+ tables |
-| Avg Query Time | 1.2s | 1.8s | 2.5s |
-| Peak QPS | 100 | 50 | 20 |
-| Memory Usage | 200MB | 500MB | 1.2GB |
-
-### Accuracy by Query Type
-
-```
-Query Type              Legacy Path    Experimental Path
-─────────────────────────────────────────────────────
-Simple Filtering        98%            99%
-Aggregation             96%            94%
-Single Join             95%            93%
-Multiple Joins          88%            85%
-Subqueries              82%            79%
-Temporal Queries        91%            88%
-Complex Expressions     79%            75%
-─────────────────────────────────────────────────────
-Overall                 91%            89%
-```
+| File | Responsibility | Status |
+|------|-----------------|--------|
+| `schema.sql` | DB schema definition | 🟢 Core |
+| `create_db.py` | Creates database | 🟢 Core |
+| `schema_extractor.py` | Introspects schema | 🟢 Core |
+| `schema_documents.py` | Table-level docs | 🟢 Production |
+| `schema_chunks.py` | Semantic chunks | 🟡 Experimental |
+| `vector_store.py` | Vector index | 🟡 Experimental |
+| `chunk_embeddings.npy` | Stored embeddings | 🟡 Experimental |
+| `chunk_metadata.json` | Chunk metadata | 🟡 Experimental |
+| `text_to_sql.py` | NL → SQL (Gemini) | 🟢 Core |
+| `sql_validator.py` | SQL safety check | 🟢 Core |
+| `sql_repair.py` | Fix broken SQL | 🟢 Core |
+| `database_executor.py` | Execute SQL | 🟢 Core |
+| `result_explainer.py` | SQL → NL | 🟢 Core |
+| `query_engine.py` | Orchestration | 🟢 Core |
+| `api.py` | FastAPI server | 🟢 Core |
+| `App.tsx` | React frontend | 🟢 Core |
+| `evaluate.py` | Testing framework | 🟢 Evaluation |
+| `test_queries.json` | Test cases | 🟢 Evaluation |
 
 ---
 
-## 🏗️ Architecture Patterns
+## 💡 The Strongest Way to Describe This Project
 
-### Adding a New Retrieval Method
+### On Resume
 
-```python
-# 1. Create retrieval_custom.py
-class CustomRetriever:
-    def retrieve(self, question: str, top_k: int = 5):
-        """Your custom retrieval logic"""
-        pass
+> Built AskDB, a schema-aware natural-language-to-SQL system that converts user questions into validated read-only SQL queries using Gemini, with automatic SQL repair and result explanation. Implemented a local semantic retrieval layer using Sentence Transformers to retrieve fine-grained database schema chunks, enabling controlled experimentation and comparison against existing table-level schema retrieval to evaluate improvements in SQL generation quality.
 
-# 2. Register in query_engine.py
-from retrieval_custom import CustomRetriever
+### In Interview
 
-RETRIEVERS = {
-    "legacy": LegacyRetriever(),
-    "experimental": SemanticRetriever(),
-    "custom": CustomRetriever()  # New!
-}
-
-# 3. Use via configuration
-RETRIEVAL_METHOD=custom
-```
-
-### Custom Validation Rules
-
-```python
-# sql_validator.py - Add custom rules
-class CustomSQLValidator:
-    def validate_sensitive_columns(self, sql: str):
-        """Block access to sensitive data"""
-        sensitive_cols = ["ssn", "password", "api_key"]
-        for col in sensitive_cols:
-            if col.lower() in sql.lower():
-                raise PermissionError(f"Cannot access {col}")
-    
-    def validate_max_results(self, sql: str):
-        """Limit result set size"""
-        if "LIMIT" not in sql:
-            sql += " LIMIT 10000"
-        return sql
-```
-
-### Error Recovery Strategy
-
-```python
-# Auto-repair SQL generation errors
-def repair_sql_with_fallback(original_sql: str, error: str):
-    """
-    1. Try automatic fix
-    2. Fall back to simpler query
-    3. Last resort: manual intervention
-    """
-    
-    # Strategy 1: Fix common issues
-    if "unknown column" in error:
-        return fuzzy_match_columns(original_sql)
-    
-    # Strategy 2: Simplify query
-    if "too complex" in error:
-        return simplify_query(original_sql)
-    
-    # Strategy 3: Ask for clarification
-    raise QueryError(f"Could not repair: {error}")
-```
-
----
-
-## 🔍 Troubleshooting
-
-### Common Issues
-
-#### Issue: "Gemini API key not found"
-
-```bash
-# Solution:
-export GEMINI_API_KEY=your_actual_key
-# or
-echo 'GEMINI_API_KEY=your_key' > .env
-```
-
-#### Issue: "Database connection timeout"
-
-```bash
-# Check if database exists
-ls -la data/askdb.db
-
-# Reinitialize if needed
-python create_db.py
-
-# Check file permissions
-chmod 644 data/askdb.db
-```
-
-#### Issue: "Vector store not initialized"
-
-```bash
-# Rebuild semantic indices
-python retrieval/schema_chunks.py
-python retrieval/vector_store.py
-
-# Verify files created
-ls -la data/chunk_*.{npy,json}
-```
-
-#### Issue: "Low accuracy on test queries"
-
-**Step 1: Diagnose**
-```bash
-python evaluate.py --verbose
-# Check which queries are failing
-```
-
-**Step 2: Analyze failures**
-```python
-# Look at evaluation_results.json
-# Identify patterns:
-# - Specific query types failing?
-# - Certain tables misunderstood?
-# - Column name ambiguities?
-```
-
-**Step 3: Improve retrieval**
-```bash
-# If using legacy:
-# - Add more sample data to schema_documents.py
-# - Improve table descriptions
-
-# If using experimental:
-# - Create finer-grained chunks
-# - Adjust RETRIEVAL_TOP_K
-# - Lower MIN_SIMILARITY_SCORE threshold
-
-python evaluate.py --compare_methods
-```
-
-#### Issue: "Slow queries taking >10 seconds"
-
-```python
-# Enable caching
-CACHE_SCHEMA_DOCUMENTS=true
-CACHE_TTL_SECONDS=3600
-
-# Increase timeout
-SQL_GENERATION_TIMEOUT=60
-
-# Use experimental retrieval (faster)
-RETRIEVAL_METHOD=experimental
-
-# Check what's slow
-python -m cProfile api.py
-# Identify bottleneck (usually Gemini API)
-```
-
-### Debug Mode
-
-Enable verbose logging:
-
-```bash
-# Terminal
-DEBUG_MODE=true VERBOSE_LOGGING=true python api.py
-
-# In code
-import logging
-logging.basicConfig(level=logging.DEBUG)
-```
-
-**Debug output includes:**
-```
-[DEBUG] Question: "How many customers from CA?"
-[DEBUG] Retrieved schema: customers (4 columns), orders (6 columns)
-[DEBUG] Calling Gemini API...
-[DEBUG] Generated SQL: SELECT COUNT(*) FROM customers WHERE state='CA'
-[DEBUG] SQL valid: ✓
-[DEBUG] Executing query...
-[DEBUG] Query returned 1 row in 145ms
-[DEBUG] Generating explanation...
-[DEBUG] Total time: 2.34s
-```
-
----
-
-## 🚦 Roadmap
-
-### Q1 2024 - Foundation ✅
-- [x] Dual retrieval path architecture
-- [x] Legacy schema documents
-- [x] Semantic chunk generation
-- [x] Vector index with embeddings
-- [x] Basic API and frontend
-- [x] Evaluation suite
-
-### Q2 2024 - Enhancement
-- [ ] Improve semantic chunk taxonomy
-- [ ] Add advanced caching layer
-- [ ] Multi-model support (Claude, GPT-4)
-- [ ] Custom validator framework
-- [ ] Analytics dashboard
-
-### Q3 2024 - Production Ready
-- [ ] Production semantic retriever deployment
-- [ ] A/B testing framework
-- [ ] Advanced error recovery
-- [ ] Performance optimization
-- [ ] Monitoring and alerting
-
-### Q4 2024 - Scale
-- [ ] Support for multiple databases
-- [ ] Batch query processing
-- [ ] Advanced caching strategies
-- [ ] Fine-tuning embeddings on domain data
-- [ ] Enterprise features (auth, audit, roles)
-
-### 2025 - Next Gen
-- [ ] Graph-based schema understanding
-- [ ] Self-improving retrieval (active learning)
-- [ ] Multi-hop reasoning for complex queries
-- [ ] Federated query across databases
-- [ ] Real-time schema updates
-
----
-
-## 📖 Examples
-
-### Example 1: Simple Aggregation
-
-**Question:** "How many orders were placed in 2024?"
-
-```bash
-curl -X POST http://localhost:8000/ask \
-  -H "Content-Type: application/json" \
-  -d '{"question": "How many orders were placed in 2024?"}'
-```
-
-**Response:**
-```json
-{
-  "sql": "SELECT COUNT(*) as order_count FROM orders WHERE YEAR(created_at) = 2024",
-  "results": [{"order_count": 2847}],
-  "explanation": "There were 2,847 orders placed during 2024."
-}
-```
-
-### Example 2: Multi-Table Join
-
-**Question:** "Show me customers and their total spending"
-
-```bash
-curl -X POST http://localhost:8000/ask \
-  -H "Content-Type: application/json" \
-  -d '{"question": "Show me the top 5 customers by total spending"}'
-```
-
-**Response:**
-```json
-{
-  "sql": "SELECT c.name, SUM(o.total) as total_spending FROM customers c LEFT JOIN orders o ON c.id = o.customer_id GROUP BY c.id ORDER BY total_spending DESC LIMIT 5",
-  "results": [
-    {"name": "Alice Johnson", "total_spending": 45230},
-    {"name": "Bob Smith", "total_spending": 38920},
-    {"name": "Carol White", "total_spending": 35640},
-    {"name": "David Brown", "total_spending": 32180},
-    {"name": "Emma Davis", "total_spending": 29450}
-  ],
-  "explanation": "The top 5 customers by total spending are: Alice Johnson ($45,230), Bob Smith ($38,920), Carol White ($35,640), David Brown ($32,180), and Emma Davis ($29,450). Together they account for $181,420 in revenue."
-}
-```
-
-### Example 3: Temporal Query
-
-**Question:** "Which products sold the best last quarter?"
-
-```bash
-curl -X POST http://localhost:8000/ask \
-  -H "Content-Type: application/json" \
-  -d '{"question": "Which products sold the best last quarter?"}'
-```
-
-**Response:**
-```json
-{
-  "sql": "SELECT p.name, SUM(oi.quantity) as total_units FROM products p JOIN order_items oi ON p.id = oi.product_id JOIN orders o ON oi.order_id = o.id WHERE o.created_at >= DATE_SUB(NOW(), INTERVAL 3 MONTH) GROUP BY p.id ORDER BY total_units DESC LIMIT 10",
-  "results": [
-    {"name": "Premium Widget", "total_units": 1250},
-    {"name": "Deluxe Gadget", "total_units": 980},
-    {"name": "Ultra Tool", "total_units": 750}
-  ]
-}
-```
+"AskDB bridges three languages: human language, database schema, and SQL. The innovation isn't just using an LLM—it's the dual retrieval architecture that lets us experiment with semantic understanding without risking production stability. We're testing whether chunk-level retrieval produces better SQL than table-level retrieval by running both paths in parallel and comparing accuracy metrics."
 
 ---
 
 ## 🤝 Contributing
 
-We welcome contributions! Here's how:
-
-### Development Setup
-
 ```bash
-# Fork and clone
-git clone https://github.com/yourusername/askdb.git
-cd askdb
+# Add a test case
+# Edit test_queries.json with new question
+{
+  "question": "Your question here",
+  "expected_sql": "SELECT ...",
+  "difficulty": "easy|medium|hard"
+}
 
-# Create feature branch
-git checkout -b feature/your-feature-name
+# Run evaluation
+python evaluate.py
 
-# Install dev dependencies
-pip install -r requirements-dev.txt
-
-# Run tests
-pytest tests/
-
-# Format code
-black . --line-length=100
+# If you improve something:
+git checkout -b feature/improvement
+# ... make changes ...
+git push origin feature/improvement
+# → Open pull request
 ```
-
-### Contribution Areas
-
-1. **Improve Retrieval** — Better chunking strategies, embedding models
-2. **Add Validators** — Custom SQL validation rules
-3. **Enhance Frontend** — Better UX, visualizations
-4. **Expand Tests** — More test queries, edge cases
-5. **Documentation** — Examples, guides, architecture docs
-
-### Pull Request Process
-
-1. Make your changes
-2. Add tests for new functionality
-3. Run `pytest` and ensure all pass
-4. Update documentation
-5. Submit PR with clear description
-6. Address review feedback
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License - see [LICENSE](LICENSE) file for details.
+MIT License - see LICENSE file
 
 ---
 
 ## 🙏 Acknowledgments
 
-- Built with ❤️ by the AskDB team
 - Powered by Google Gemini API
-- Embeddings via Hugging Face Sentence Transformers
-- API framework: FastAPI
-- Frontend: React + TypeScript
-
----
-
-## 📞 Support & Contact
-
-- **Issues:** [GitHub Issues](https://github.com/yourusername/askdb/issues)
-- **Discussions:** [GitHub Discussions](https://github.com/yourusername/askdb/discussions)
-- **Email:** support@askdb.dev
-- **Documentation:** [Full Docs](https://docs.askdb.dev)
-- **Discord:** [Join Community](https://discord.gg/askdb)
-
----
-
-## ⭐ Show Your Support
-
-If AskDB helps you, please consider giving it a star on GitHub! It helps others discover the project.
-
-```
-⭐ Star us on GitHub → https://github.com/yourusername/askdb
-```
+- Embeddings via Hugging Face Sentence Transformers (all-MiniLM-L6-v2)
+- Built with FastAPI and React
+- SQLite for database layer
 
 ---
 
 <div align="center">
 
-**Made with ❤️ for data accessibility**
+**Bridging Human Language → Database Schema → SQL**
 
-[Back to Top](#-askdb) • [Getting Started](#-quick-start) • [API Reference](#-api-reference) • [Roadmap](#-roadmap)
+[⭐ Star on GitHub](https://github.com/yourusername/askdb)
 
 </div>
